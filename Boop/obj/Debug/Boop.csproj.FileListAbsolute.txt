@@ -1,0 +1,9 @@
+c:\users\milto\documents\visual studio 2015\Projects\Boop\Boop\bin\Debug\Boop.exe.config
+c:\users\milto\documents\visual studio 2015\Projects\Boop\Boop\bin\Debug\Boop.exe
+c:\users\milto\documents\visual studio 2015\Projects\Boop\Boop\bin\Debug\Boop.pdb
+c:\users\milto\documents\visual studio 2015\Projects\Boop\Boop\obj\Debug\Boop.csprojResolveAssemblyReference.cache
+c:\users\milto\documents\visual studio 2015\Projects\Boop\Boop\obj\Debug\Boop.Form1.resources
+c:\users\milto\documents\visual studio 2015\Projects\Boop\Boop\obj\Debug\Boop.Properties.Resources.resources
+c:\users\milto\documents\visual studio 2015\Projects\Boop\Boop\obj\Debug\Boop.csproj.GenerateResource.Cache
+c:\users\milto\documents\visual studio 2015\Projects\Boop\Boop\obj\Debug\Boop.exe
+c:\users\milto\documents\visual studio 2015\Projects\Boop\Boop\obj\Debug\Boop.pdb
