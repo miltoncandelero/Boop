@@ -80,7 +80,7 @@ namespace Boop
             if (userClickedOK == true)
             {
                 if (OFD.FileNames.Length > 0) {
-                    listView1.Items.Clear();
+                    lvFileList.Items.Clear();
                     FilesToBoop = OFD.FileNames;
                     ActiveDir = (Path.GetDirectoryName(FilesToBoop[0]));
 
@@ -88,7 +88,7 @@ namespace Boop
                     {
                         if (ActiveDir == Path.GetDirectoryName(item))
                         {
-                            listView1.Items.Add(Path.GetFileName(item));
+                            lvFileList.Items.Add(Path.GetFileName(item));
                         }
                         else
                         {
@@ -107,6 +107,13 @@ namespace Boop
             {
                 MessageBox.Show("That doesn't look like an IP adress." + Environment.NewLine + "An IP adress looks something like this: 192.168.1.6" + Environment.NewLine + "(That is: Numbers DOT numbers DOT numbers DOT numbers)", "Error on the IP adress", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //reenable controls?
+
+                return;
+            }
+
+            if (lvFileList.Items.Count == 0)
+            {
+                MessageBox.Show("Add some files first?", "No files to boop", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return;
             }
