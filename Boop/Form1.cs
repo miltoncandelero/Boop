@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Boop
@@ -105,7 +100,7 @@ namespace Boop
         {
             if (ValidateIPv4(txt3DS.Text) == false)
             {
-                MessageBox.Show("That doesn't look like an IP adress." + Environment.NewLine + "An IP adress looks something like this: 192.168.1.6" + Environment.NewLine + "(That is: Numbers DOT numbers DOT numbers DOT numbers)", "Error on the IP adress", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("That doesn't look like an IP address." + Environment.NewLine + "An IP address looks something like this: 192.168.1.6" + Environment.NewLine + "(That is: Numbers DOT numbers DOT numbers DOT numbers)", "Error on the IP address", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //reenable controls?
 
                 return;
@@ -155,7 +150,7 @@ namespace Boop
             String message = "";
             foreach (var CIA in FilesToBoop)
             {
-               message += LocalIP() + ":8080/" + Path.GetFileName(CIA) + "\n";
+               message += LocalIP() + ":8080/" + Uri.EscapeUriString(Path.GetFileName(CIA)) + "\n";
             }
 
             //boop the info to the 3ds...
