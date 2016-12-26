@@ -122,44 +122,44 @@ namespace Boop
 
             Process.Start(procStartInfo);
 
-
-
-            //blocking all controls?
-            StatusLabel.Text = "Booping... please wait";
-
-            btnBoop.Enabled = false;
-            button1.Enabled = false;
-            txt3DS.Enabled = false;
-            btnAbout.Enabled = false;
-
+            setStatusLabel("Booping... please wait");
+            enableControls(false);
 
             myServer = new SimpleHTTPServer(ActiveDir, 8080);
             
-
             System.Threading.Thread.Sleep(100);
 
             s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            s.Connect(txt3DS.Text, 5000);
+
+            IAsyncResult result = s.BeginConnect(txt3DS.Text, 5000, null, null);
+
+            result.AsyncWaitHandle.WaitOne(5000, true);
+
+            if (!s.Connected)
+            {
+                s.Close();
+                myServer.Stop();
+                MessageBox.Show("Failed to connect to 3DS, wrong IP address?", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                setStatusLabel("Ready");
+                enableControls(true);
+                return;
+            }
+
             String message = "";
             foreach (var CIA in FilesToBoop)
             {
                message += LocalIP() + ":8080/" + Path.GetFileName(CIA) + "\n";
             }
 
-         
             //boop the info to the 3ds...
             byte[] Largo = BitConverter.GetBytes((uint)Encoding.ASCII.GetBytes(message).Length);
             byte[] Adress = Encoding.ASCII.GetBytes(message);
 
             Array.Reverse(Largo); //Endian fix
 
-
-            
             s.Send(AppendTwoByteArrays(Largo, Adress));
-            
 
             s.BeginReceive(new byte[1], 0,1, 0, new AsyncCallback(GotData), null); //Call me back when the 3ds says something.
-
         }
 
         private void GotData(IAsyncResult ar)
@@ -169,11 +169,8 @@ namespace Boop
             //Spooky "thread safe" way to access UI from ASYNC.
             this.Invoke((MethodInvoker)delegate
             {
-                btnBoop.Enabled = true;
-                button1.Enabled = true;
-                txt3DS.Enabled = true;
-                btnAbout.Enabled = true;
-                StatusLabel.Text = "Booping complete!";
+                enableControls(true);
+                setStatusLabel("Booping complete!");
             });
 
             //Fixing your firewall. I am good snek now
@@ -184,7 +181,6 @@ namespace Boop
             procStartInfo.CreateNoWindow = true;
 
             Process.Start(procStartInfo);
-
 
             s.Close();
             myServer.Stop();
@@ -243,6 +239,19 @@ namespace Boop
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/miltoncandelero/Boop");
+        }
+
+        private void enableControls(bool enabled)
+        {
+            btnBoop.Enabled = enabled;
+            button1.Enabled = enabled;
+            txt3DS.Enabled = enabled;
+            btnAbout.Enabled = enabled;
+        }
+
+        private void setStatusLabel(String text)
+        {
+            StatusLabel.Text = text;
         }
     }
 }
