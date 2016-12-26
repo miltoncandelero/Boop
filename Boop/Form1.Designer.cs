@@ -86,9 +86,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 177);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.Size = new System.Drawing.Size(87, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "3DS IP adress: ";
+            this.label1.Text = "3DS IP address: ";
             // 
             // txt3DS
             // 
@@ -98,6 +98,8 @@
             this.txt3DS.Size = new System.Drawing.Size(92, 20);
             this.txt3DS.TabIndex = 6;
             this.txt3DS.Text = "192.168.1.1";
+            this.txt3DS.TextChanged += new System.EventHandler(this.txt3DS_TextChanged);
+            this.txt3DS.Leave += new System.EventHandler(this.txt3DS_Leave);
             // 
             // statusStrip1
             // 
