@@ -98,6 +98,7 @@
             this.txt3DS.Size = new System.Drawing.Size(92, 20);
             this.txt3DS.TabIndex = 6;
             this.txt3DS.Text = "192.168.1.1";
+            this.txt3DS.TextChanged += new System.EventHandler(this.txt3DS_TextChanged);
             this.txt3DS.Leave += new System.EventHandler(this.txt3DS_Leave);
             // 
             // statusStrip1

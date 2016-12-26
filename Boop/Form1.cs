@@ -256,18 +256,24 @@ namespace Boop
             StatusLabel.Text = text;
         }
 
-        private void saveIPAddress(String newIPAddress)
+        private String saveIPAddress(String newIPAddress)
         {
+            newIPAddress = newIPAddress.Trim();
             if (ValidateIPv4(newIPAddress))
             {
                 Properties.Settings.Default["saved3DSIP"] = newIPAddress;
                 Properties.Settings.Default.Save();
             }
+            return newIPAddress;
         }
 
         private void txt3DS_Leave(object sender, EventArgs e)
         {
-            txt3DS.Text = txt3DS.Text.Trim();
+            txt3DS.Text = saveIPAddress(txt3DS.Text);
+        }
+
+        private void txt3DS_TextChanged(object sender, EventArgs e)
+        {
             saveIPAddress(txt3DS.Text);
         }
     }
