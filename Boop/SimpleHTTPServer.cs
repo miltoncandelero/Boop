@@ -163,6 +163,7 @@ namespace Boop
             string filename = context.Request.Url.AbsolutePath;
             Console.WriteLine(filename);
             filename = filename.Substring(1);
+            filename = filename.Replace("%20", " ");
 
             if (string.IsNullOrEmpty(filename))
             {
