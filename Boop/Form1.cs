@@ -235,7 +235,7 @@ namespace Boop
 
         private void btnAbout_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Boop" + Environment.NewLine + "Coded by Elemental Code (Milton Candelero)" + Environment.NewLine + Environment.NewLine + "Boop is the C# port of servefiles.py for FBI by Steveice10" + Environment.NewLine + Environment.NewLine + "No sneks were harmed in the coding of this app","BOOP 1.0.Snek",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MessageBox.Show("Boop" + Environment.NewLine + "Coded by Elemental Code (Milton Candelero)" + Environment.NewLine + Environment.NewLine + "Boop is the C# port of servefiles.py for FBI by Steveice10" + Environment.NewLine + Environment.NewLine + "No sneks were harmed in the coding of this app","BOOP 1.0.1",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
