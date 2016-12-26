@@ -198,7 +198,7 @@ namespace Boop
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            txt3DS.Text = Properties.Settings.Default["saved3DSIP"].ToString();
         }
 
 
@@ -254,6 +254,21 @@ namespace Boop
         private void setStatusLabel(String text)
         {
             StatusLabel.Text = text;
+        }
+
+        private void saveIPAddress(String newIPAddress)
+        {
+            if (ValidateIPv4(newIPAddress))
+            {
+                Properties.Settings.Default["saved3DSIP"] = newIPAddress;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void txt3DS_Leave(object sender, EventArgs e)
+        {
+            txt3DS.Text = txt3DS.Text.Trim();
+            saveIPAddress(txt3DS.Text);
         }
     }
 }
