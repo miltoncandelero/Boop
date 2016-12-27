@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -175,7 +174,7 @@ namespace Boop
             try
             {
 //#endif
-            if (ValidateIPv4(txt3DS.Text) == false)
+            if (NetUtil.IPv4.Validate(txt3DS.Text) == false)
             {
                 MessageBox.Show("That doesn't look like an IP address." + Environment.NewLine + "An IP address looks something like this: 192.168.1.6" + Environment.NewLine + "(That is: Numbers DOT numbers DOT numbers DOT numbers)", "Error on the IP address", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 lblIPMarker.Visible = true; //Added red boxes to point out the errors.
@@ -236,7 +235,7 @@ namespace Boop
             String message = "";
             foreach (var CIA in FilesToBoop)
             {
-               message += LocalIP() + ":8080/" + Uri.EscapeUriString(Path.GetFileName(CIA)) + "\n";
+               message += NetUtil.IPv4.Local + ":8080/" + Uri.EscapeUriString(Path.GetFileName(CIA)) + "\n";
             }
 
             //boop the info to the 3ds...
@@ -298,48 +297,6 @@ namespace Boop
         {
             new Task(CheckForUpdates).Start(); //Async check for updates
             txt3DS.Text = Properties.Settings.Default["saved3DSIP"].ToString();
-        }
-
-
-        public static string LocalIP()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            throw new Exception("Local IP Address Not Found!");
-        }
-
-        /// <summary>
-        /// Validates if the specified string is an IPv4 Address
-        /// </summary>
-        /// <param name="ipString">The string to compare</param>
-        /// <returns>bool</returns>
-        /// <remarks>Consider using REGEX for this.  It is less code, and could be faster.  See: https://goo.gl/580E5x </remarks>
-        public bool ValidateIPv4(string ipString)
-        {
-            if (String.IsNullOrWhiteSpace(ipString) || ipString == "0.0.0.0" || ipString == "127.0.0.1")
-            {
-                return false;
-            }
-
-            Regex rgx = new Regex(@"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
-            return rgx.IsMatch(ipString);
-            //Old method. Is it really faster with regex? :S
-            /*string[] splitValues = ipString.Split('.');
-            if (splitValues.Length != 4)
-            {
-                return false;
-            }
-
-            byte tempForParsing;
-
-            return splitValues.All(r => byte.TryParse(r, out tempForParsing));*/
-
 
         }
 
@@ -362,7 +319,7 @@ namespace Boop
         private String saveIPAddress(String newIPAddress)
         {
             newIPAddress = newIPAddress.Trim();
-            if (ValidateIPv4(newIPAddress))
+            if (NetUtil.IPv4.Validate(newIPAddress))
             {
                 Properties.Settings.Default["saved3DSIP"] = newIPAddress;
                 Properties.Settings.Default.Save();
