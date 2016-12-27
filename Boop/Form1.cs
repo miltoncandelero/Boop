@@ -16,8 +16,8 @@ namespace Boop
     {
         SimpleHTTPServer myServer; //Server to host the cia files
         Socket s; //Socket to tell FBI where the server is
-        String[] FilesToBoop; //Files to be boop'd
-        String ActiveDir; //Used to mount the server
+        string[] FilesToBoop; //Files to be boop'd
+        string ActiveDir; //Used to mount the server
         UpdateChecker UC; // Update checker.
 
         public Form1()
@@ -50,7 +50,10 @@ namespace Boop
 
         }
 
-        private void CheckForUpdates() //Used as a task to not freeze the thread. (I am not really good with asyncs, maybe there are better ways to do this)
+        /// <summary>
+        /// Used as a task to not freeze the thread. (I am not really good with asyncs, maybe there are better ways to do this)
+        /// </summary>
+        private void CheckForUpdates()
         {
             UC = new UpdateChecker();
             try
@@ -112,7 +115,7 @@ namespace Boop
 
         }
 
-        private void button1_Click(object sender, EventArgs e) //I should refactor this...
+        private void btnPickFiles_Click(object sender, EventArgs e)
         {
             // Create an instance of the open file dialog box.
             lblFileMarker.Visible = false;
@@ -142,7 +145,10 @@ namespace Boop
              }
         }
 
-        private void ProcessFilenames() //This used to be in one chunk on the button1.
+        /// <summary>
+        /// Processes The Files
+        /// </summary>
+        private void ProcessFilenames()
         {
             ActiveDir = (Path.GetDirectoryName(FilesToBoop[0]));
 
@@ -163,7 +169,7 @@ namespace Boop
         private void btnBoop_Click(object sender, EventArgs e)
         {
             //Gigantic TryCatch for issue #9. It somehow still freezes.
-#if DEBUG
+#if DEBUG //Consider closing application on error, and having the try being applied to all builds.
             try
             {
 #endif
@@ -183,6 +189,8 @@ namespace Boop
 
             //MURDERING YOUR FIREWALL
             //I AM BAD SNEK. MUAHAHAHAHAHA
+            //Please consider allowing the user to decide this.  Most TCP/UDP calls will automatically bring the firewall allowance window up.  Doing so should also remove the administrative requirement.
+            //Also, most Firewalls allow LAN connections by default.
 
             string arguments = "advfirewall firewall add rule name=\"BOOPFILESERVER\" dir=in action=allow protocol=TCP localport=8080";
             ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
@@ -293,9 +301,15 @@ namespace Boop
             throw new Exception("Local IP Address Not Found!");
         }
 
+        /// <summary>
+        /// Validates if the specified string is an IPv4 Address
+        /// </summary>
+        /// <param name="ipString">The string to compare</param>
+        /// <returns>bool</returns>
+        /// <remarks>Consider using REGEX for this.  It is less code, and could be faster.  See: https://goo.gl/580E5x </remarks>
         public bool ValidateIPv4(string ipString)
         {
-            if (String.IsNullOrWhiteSpace(ipString))
+            if (String.IsNullOrWhiteSpace(ipString) || ipString == "0.0.0.0" || ipString == "127.0.0.1")
             {
                 return false;
             }
@@ -314,7 +328,7 @@ namespace Boop
         private void enableControls(bool enabled)
         {
             btnBoop.Enabled = enabled;
-            button1.Enabled = enabled;
+            btnPickFiles.Enabled = enabled;
             txt3DS.Enabled = enabled;
             btnAbout.Enabled = enabled;
         }
@@ -354,12 +368,12 @@ namespace Boop
 
         private void btnGithub_Click(object sender, EventArgs e) //New cooler github button
         {
-            System.Diagnostics.Process.Start(@"https://github.com/miltoncandelero/Boop");
+            Process.Start(@"https://github.com/miltoncandelero/Boop");
         }
 
         private void lblUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) //Go to update page
         {
-            System.Diagnostics.Process.Start(UC.sUrl);
+            Process.Start(UC.sUrl);
         }
 
         private void btnInfo_Click(object sender, EventArgs e) //New super cool snek about form

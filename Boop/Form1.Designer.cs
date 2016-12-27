@@ -37,7 +37,7 @@
             this.txt3DS = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnPickFiles = new System.Windows.Forms.Button();
             this.HomeMadeGettoDivider = new System.Windows.Forms.Label();
             this.linkWhat = new System.Windows.Forms.LinkLabel();
             this.lblIPMarker = new System.Windows.Forms.Label();
@@ -120,19 +120,19 @@
             this.StatusLabel.Size = new System.Drawing.Size(44, 17);
             this.StatusLabel.Text = "Ready";
             // 
-            // button1
+            // btnPickFiles
             // 
-            this.button1.AutoSize = true;
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(286, 190);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(76, 30);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Pick files";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnPickFiles.AutoSize = true;
+            this.btnPickFiles.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPickFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPickFiles.Location = new System.Drawing.Point(286, 190);
+            this.btnPickFiles.Name = "btnPickFiles";
+            this.btnPickFiles.Size = new System.Drawing.Size(76, 30);
+            this.btnPickFiles.TabIndex = 0;
+            this.btnPickFiles.Text = "Pick files";
+            this.btnPickFiles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnPickFiles.UseVisualStyleBackColor = true;
+            this.btnPickFiles.Click += new System.EventHandler(this.btnPickFiles_Click);
             // 
             // HomeMadeGettoDivider
             // 
@@ -235,7 +235,7 @@
             this.Controls.Add(this.btnAbout);
             this.Controls.Add(this.btnBoop);
             this.Controls.Add(this.lvFileList);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnPickFiles);
             this.Controls.Add(this.lblIPMarker);
             this.Controls.Add(this.lblFileMarker);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -254,7 +254,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnPickFiles;
         private System.Windows.Forms.ListView lvFileList;
         private System.Windows.Forms.Button btnBoop;
         private System.Windows.Forms.PictureBox btnAbout;
