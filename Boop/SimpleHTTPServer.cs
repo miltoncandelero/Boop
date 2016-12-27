@@ -151,7 +151,7 @@ namespace Boop
                     HttpListenerContext context = _listener.GetContext();
                     Process(context);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -200,7 +200,7 @@ namespace Boop
                     context.Response.StatusCode = (int)HttpStatusCode.OK;
                     context.Response.OutputStream.Flush();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 }
