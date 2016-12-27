@@ -1,6 +1,6 @@
 # Boop
 
-Current release: **1.1.0**
+Current release: **1.1.1**
 
 Boop is a C# implementation of the [servefiles.py from FBI](https://github.com/Steveice10/FBI/tree/2.4.5/servefiles)
 
