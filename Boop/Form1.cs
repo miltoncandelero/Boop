@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -169,11 +170,12 @@ namespace Boop
         private void btnBoop_Click(object sender, EventArgs e)
         {
             //Gigantic TryCatch for issue #9. It somehow still freezes.
-#if DEBUG //Consider closing application on error, and having the try being applied to all builds.
+//#if DEBUG //Consider closing application on error, and having the try being applied to all builds.
+            //Okay, just for 1.1.0 so we can pin down the pesky #9
             try
             {
-#endif
-                if (ValidateIPv4(txt3DS.Text) == false)
+//#endif
+            if (ValidateIPv4(txt3DS.Text) == false)
             {
                 MessageBox.Show("That doesn't look like an IP address." + Environment.NewLine + "An IP address looks something like this: 192.168.1.6" + Environment.NewLine + "(That is: Numbers DOT numbers DOT numbers DOT numbers)", "Error on the IP address", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 lblIPMarker.Visible = true; //Added red boxes to point out the errors.
@@ -186,11 +188,13 @@ namespace Boop
                 lblFileMarker.Visible = true; //Added red boxes to point out the errors.
                 return;
             }
+                //The current implementation of httpserver runs on httplistener which runs out of http.sys
+                //This means that we are not actively hosting the server, http.sys is. We just get to know everything thats happening.
+                //The app that needs to be put through firewall is http.sys and that doesn't trigger the firewall warning and is not allowed to accept incoming connections.
+                //Thats why the firewall is poked like this.      
+                //#11
 
-            //MURDERING YOUR FIREWALL
-            //I AM BAD SNEK. MUAHAHAHAHAHA
-            //Please consider allowing the user to decide this.  Most TCP/UDP calls will automatically bring the firewall allowance window up.  Doing so should also remove the administrative requirement.
-            //Also, most Firewalls allow LAN connections by default.
+            setStatusLabel("Piercing firewall...");
 
             string arguments = "advfirewall firewall add rule name=\"BOOPFILESERVER\" dir=in action=allow protocol=TCP localport=8080";
             ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
@@ -200,12 +204,15 @@ namespace Boop
 
             Process.Start(procStartInfo);
 
-            setStatusLabel("Booping... please wait");
+            setStatusLabel("Opening httpserver...");
             enableControls(false);
+ 
 
             myServer = new SimpleHTTPServer(ActiveDir, 8080);
             
             System.Threading.Thread.Sleep(100);
+
+            setStatusLabel("Opening socket to send the file list...");
 
             s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -224,6 +231,8 @@ namespace Boop
                 return;
             }
 
+            setStatusLabel("Sending the file list...");
+
             String message = "";
             foreach (var CIA in FilesToBoop)
             {
@@ -238,15 +247,18 @@ namespace Boop
 
             s.Send(AppendTwoByteArrays(Largo, Adress));
 
+            setStatusLabel("Booping files... Please wait");
             s.BeginReceive(new byte[1], 0,1, 0, new AsyncCallback(GotData), null); //Call me back when the 3ds says something.
 
-#if DEBUG
+//#if DEBUG
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                //Hopefully, some day we can have all the different exceptions handled... One can dream, right? *-*
+                MessageBox.Show("Something went really wrong: " + Environment.NewLine + Environment.NewLine + "\"" + ex.Message + "\"" + Environment.NewLine + Environment.NewLine + "If this keeps happening, please take a screenshot of this message and post it on our github." + Environment.NewLine + Environment.NewLine + "The program will close now","Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                Application.Exit();
             }
-#endif
+//#endif
         }
 
         private void GotData(IAsyncResult ar)
@@ -258,6 +270,7 @@ namespace Boop
             {
                 enableControls(true);
                 setStatusLabel("Booping complete!");
+                MessageBox.Show("Booping complete!", "Yay!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             });
 
             //Fixing your firewall. I am good snek now
@@ -314,7 +327,10 @@ namespace Boop
                 return false;
             }
 
-            string[] splitValues = ipString.Split('.');
+            Regex rgx = new Regex(@"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+            return rgx.IsMatch(ipString);
+            //Old method. Is it really faster with regex? :S
+            /*string[] splitValues = ipString.Split('.');
             if (splitValues.Length != 4)
             {
                 return false;
@@ -322,7 +338,9 @@ namespace Boop
 
             byte tempForParsing;
 
-            return splitValues.All(r => byte.TryParse(r, out tempForParsing));
+            return splitValues.All(r => byte.TryParse(r, out tempForParsing));*/
+
+
         }
 
         private void enableControls(bool enabled)
@@ -336,6 +354,9 @@ namespace Boop
         private void setStatusLabel(String text)
         {
             StatusLabel.Text = text;
+            //Force-update text to appear. If we still crash from #9 we should get where it crashed.
+            statusStrip1.Invalidate();
+            statusStrip1.Refresh();
         }
 
         private String saveIPAddress(String newIPAddress)
