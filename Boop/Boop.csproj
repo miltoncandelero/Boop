@@ -101,6 +101,7 @@
     <Compile Include="MyIP.Designer.cs">
       <DependentUpon>MyIP.cs</DependentUpon>
     </Compile>
+    <Compile Include="NetUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleHTTPServer.cs" />
