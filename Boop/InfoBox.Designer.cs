@@ -30,10 +30,10 @@
             this.lvContributors = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblSnekFriendly = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -72,16 +72,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Shout out to all the friends of the snek:";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Boop.Properties.Resources.snekicon1;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(114, 112);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
-            // 
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
@@ -100,7 +90,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 17);
             this.label1.TabIndex = 7;
-            this.label1.Text = "v1.1.0";
+            this.label1.Text = "v1.1.1";
             // 
             // lblSnekFriendly
             // 
@@ -110,6 +100,16 @@
             this.lblSnekFriendly.Size = new System.Drawing.Size(163, 67);
             this.lblSnekFriendly.TabIndex = 8;
             this.lblSnekFriendly.Text = "Boop, the snek friendly network file transfer for FBI 3DS.";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Boop.Properties.Resources.snekicon1;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(114, 112);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
             // 
             // InfoBox
             // 
@@ -129,7 +129,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "About Boop 1.1.0";
+            this.Text = "About Boop 1.1.1";
             this.Load += new System.EventHandler(this.InfoBox_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
