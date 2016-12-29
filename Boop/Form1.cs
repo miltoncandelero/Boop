@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -95,8 +96,9 @@ namespace Boop
                 string arguments = "advfirewall firewall delete rule name=\"BOOPFILESERVER\"";
                 ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
                 
-                procStartInfo.UseShellExecute = false;
-                procStartInfo.CreateNoWindow = true;
+                procStartInfo.UseShellExecute = true;
+                procStartInfo.Verb = "runas";
+                //procStartInfo.CreateNoWindow = true;
 
                 Process.Start(procStartInfo);
             }
@@ -173,20 +175,42 @@ namespace Boop
             //Okay, just for 1.1.0 so we can pin down the pesky #9
             try
             {
-//#endif
-            if (NetUtil.IPv4.Validate(txt3DS.Text) == false)
-            {
-                MessageBox.Show("That doesn't look like an IP address." + Environment.NewLine + "An IP address looks something like this: 192.168.1.6" + Environment.NewLine + "(That is: Numbers DOT numbers DOT numbers DOT numbers)", "Error on the IP address", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                lblIPMarker.Visible = true; //Added red boxes to point out the errors.
-                return;
-            }
+                //#endif
 
+                //Fastest check first.
             if (lvFileList.Items.Count == 0)
             {
                 MessageBox.Show("Add some files first?", "No files to boop", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 lblFileMarker.Visible = true; //Added red boxes to point out the errors.
                 return;
             }
+
+
+            string s3DSip = "";
+            if (chkGuess.Checked)
+            {
+                setStatusLabel("Guessing 3DS IP adress...");
+                s3DSip = NetUtil.IPv4.GetFirst3DS();
+                if (s3DSip == "")
+                {
+                    MessageBox.Show("Cannot detect the 3DS in the network" + Environment.NewLine + "Try writing the IP adress manually", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lblIPMarker.Visible = true; //Added red boxes to point out the errors.
+                    return;
+                }
+
+                }
+                else
+            {
+                if (NetUtil.IPv4.Validate(txt3DS.Text) == false)
+                {
+                    MessageBox.Show("That doesn't look like an IP address." + Environment.NewLine + "An IP address looks something like this: 192.168.1.6" + Environment.NewLine + "(That is: Numbers DOT numbers DOT numbers DOT numbers)", "Error on the IP address", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lblIPMarker.Visible = true; //Added red boxes to point out the errors.
+                    return;
+                }
+
+                s3DSip = txt3DS.Text;
+            }
+
                 //The current implementation of httpserver runs on httplistener which runs out of http.sys
                 //This means that we are not actively hosting the server, http.sys is. We just get to know everything thats happening.
                 //The app that needs to be put through firewall is http.sys and that doesn't trigger the firewall warning and is not allowed to accept incoming connections.
@@ -196,12 +220,17 @@ namespace Boop
             setStatusLabel("Piercing firewall...");
 
             string arguments = "advfirewall firewall add rule name=\"BOOPFILESERVER\" dir=in action=allow protocol=TCP localport=8080";
+
+
             ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
 
-            procStartInfo.UseShellExecute = false;
-            procStartInfo.CreateNoWindow = true;
+            procStartInfo.UseShellExecute = true; //Shell excecute to try to stop the crashes. :'(
+            procStartInfo.Verb = "runas"; //Force AGAIN! admin rights.
+            //procStartInfo.CreateNoWindow = true; Ignored when shellexcecuted.
 
             Process.Start(procStartInfo);
+
+            System.Threading.Thread.Sleep(1000); // Could this fix the mysterious crashes? Maybe if we try to open the server while firewall is doing his thing we blow up? :S
 
             setStatusLabel("Opening httpserver...");
             enableControls(false);
@@ -215,22 +244,21 @@ namespace Boop
 
             s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            IAsyncResult result = s.BeginConnect(txt3DS.Text, 5000, null, null);
+                IAsyncResult result = s.BeginConnect(s3DSip, 5000, null, null);
+                result.AsyncWaitHandle.WaitOne(5000, true);
 
-            result.AsyncWaitHandle.WaitOne(5000, true);
+                if (!s.Connected)
+                {
+                    s.Close();
+                    myServer.Stop();
+                    MessageBox.Show("Failed to connect to 3DS"+Environment.NewLine+"Please check:"+Environment.NewLine+ "Did you write the right IP adress?" +Environment.NewLine + "Is FBI open and listening?", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lblIPMarker.Visible = true;
+                    setStatusLabel("Ready");
+                    enableControls(true);
+                    return;
+                }
 
-            if (!s.Connected)
-            {
-                s.Close();
-                myServer.Stop();
-                MessageBox.Show("Failed to connect to 3DS, wrong IP address?", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                lblIPMarker.Visible = true;
-                setStatusLabel("Ready");
-                enableControls(true);
-                return;
-            }
-
-            setStatusLabel("Sending the file list...");
+                setStatusLabel("Sending the file list...");
 
             String message = "";
             foreach (var CIA in FilesToBoop)
@@ -276,8 +304,9 @@ namespace Boop
             string arguments = "advfirewall firewall delete rule name=\"BOOPFILESERVER\"";
             ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
 
-            procStartInfo.UseShellExecute = false;
-            procStartInfo.CreateNoWindow = true;
+            procStartInfo.UseShellExecute = true;
+            procStartInfo.Verb = "runas";
+            //procStartInfo.CreateNoWindow = true;
 
             Process.Start(procStartInfo);
 
@@ -297,14 +326,16 @@ namespace Boop
         {
             new Task(CheckForUpdates).Start(); //Async check for updates
             txt3DS.Text = Properties.Settings.Default["saved3DSIP"].ToString();
-
+            chkGuess.Checked = (bool) Properties.Settings.Default["bGuess"];
+            txt3DS.Enabled = !chkGuess.Checked;
         }
 
         private void enableControls(bool enabled)
         {
             btnBoop.Enabled = enabled;
             btnPickFiles.Enabled = enabled;
-            txt3DS.Enabled = enabled;
+            chkGuess.Enabled = enabled;
+            if (chkGuess.Checked) txt3DS.Enabled = false; else txt3DS.Enabled = enabled;
             btnAbout.Enabled = enabled;
         }
 
@@ -358,6 +389,13 @@ namespace Boop
         {
             InfoBox frmInfo = new InfoBox();
             frmInfo.ShowDialog();
+        }
+
+        private void chkGuess_CheckedChanged(object sender, EventArgs e)
+        {
+            txt3DS.Enabled = !chkGuess.Checked;
+            Properties.Settings.Default["bGuess"] = chkGuess.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }

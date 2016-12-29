@@ -5,5 +5,8 @@
     <Setting Name="saved3DSIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">192.168.1.1</Value>
     </Setting>
+    <Setting Name="bGuess" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

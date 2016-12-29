@@ -90,7 +90,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 17);
             this.label1.TabIndex = 7;
-            this.label1.Text = "v1.1.1";
+            this.label1.Text = "v1.2.0";
             // 
             // lblSnekFriendly
             // 
@@ -129,7 +129,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "About Boop 1.1.1";
+            this.Text = "About Boop 1.2.0";
             this.Load += new System.EventHandler(this.InfoBox_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
