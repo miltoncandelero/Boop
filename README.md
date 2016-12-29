@@ -18,5 +18,5 @@ Enough talk! Take me to the [download page!](https://github.com/miltoncandelero/
 
 ## Screenshot:
 
-![Snek Screenshot](/Screenshot.PNG?raw=true "Boop v1.1.0")
+![Snek Screenshot](/Screenshot1.2.PNG?raw=true "Boop v1.1.0")
 
