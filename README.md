@@ -1,6 +1,7 @@
 # Boop
+***Become a friend of the snek***
 
-Current release: **1.1.1**
+Current release: **1.2.0**
 
 Boop is a C# implementation of the [servefiles.py from FBI](https://github.com/Steveice10/FBI/tree/2.4.5/servefiles)
 
