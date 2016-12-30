@@ -15,6 +15,12 @@ namespace Boop
 
         public String sUrl { get; private set; }
 
+        public static string GetCurrentVersion()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return fileVersionInfo.ProductMajorPart.ToString() + "." + fileVersionInfo.ProductMinorPart.ToString() + "." + fileVersionInfo.ProductBuildPart.ToString();
+        }
 
         public UpdateChecker(int Major, int Minor, int Fix)
         {

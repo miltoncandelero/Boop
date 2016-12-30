@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.lvFileList = new System.Windows.Forms.ListView();
-            this.File = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CiaFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnBoop = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txt3DS = new System.Windows.Forms.TextBox();
@@ -44,10 +44,13 @@
             this.lblFileMarker = new System.Windows.Forms.Label();
             this.lblUpdates = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.chkGuess = new System.Windows.Forms.CheckBox();
             this.btnInfo = new System.Windows.Forms.Button();
             this.btnGithub = new System.Windows.Forms.Button();
+            this.chkGuess = new System.Windows.Forms.CheckBox();
             this.btnAbout = new System.Windows.Forms.PictureBox();
+            this.CiaName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CiaDesc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblImageVersion = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnAbout)).BeginInit();
             this.SuspendLayout();
@@ -55,7 +58,9 @@
             // lvFileList
             // 
             this.lvFileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.File});
+            this.CiaFile,
+            this.CiaName,
+            this.CiaDesc});
             this.lvFileList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvFileList.FullRowSelect = true;
             this.lvFileList.GridLines = true;
@@ -65,11 +70,12 @@
             this.lvFileList.TabIndex = 1;
             this.lvFileList.UseCompatibleStateImageBehavior = false;
             this.lvFileList.View = System.Windows.Forms.View.Details;
+            this.lvFileList.SelectedIndexChanged += new System.EventHandler(this.lvFileList_SelectedIndexChanged);
             // 
-            // File
+            // CiaFile
             // 
-            this.File.Text = "Files to boop";
-            this.File.Width = 346;
+            this.CiaFile.Text = "File";
+            this.CiaFile.Width = 150;
             // 
             // btnBoop
             // 
@@ -188,20 +194,6 @@
             this.lblUpdates.Text = "Looking for updates";
             this.lblUpdates.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblUpdates_LinkClicked);
             // 
-            // chkGuess
-            // 
-            this.chkGuess.AutoSize = true;
-            this.chkGuess.Checked = true;
-            this.chkGuess.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkGuess.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkGuess.Location = new System.Drawing.Point(12, 190);
-            this.chkGuess.Name = "chkGuess";
-            this.chkGuess.Size = new System.Drawing.Size(210, 21);
-            this.chkGuess.TabIndex = 17;
-            this.chkGuess.Text = "Magically guess 3DS IP adress?";
-            this.chkGuess.UseVisualStyleBackColor = true;
-            this.chkGuess.CheckedChanged += new System.EventHandler(this.chkGuess_CheckedChanged);
-            // 
             // btnInfo
             // 
             this.btnInfo.AutoSize = true;
@@ -226,6 +218,20 @@
             this.btnGithub.UseVisualStyleBackColor = true;
             this.btnGithub.Click += new System.EventHandler(this.btnGithub_Click);
             // 
+            // chkGuess
+            // 
+            this.chkGuess.AutoSize = true;
+            this.chkGuess.Checked = true;
+            this.chkGuess.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkGuess.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkGuess.Location = new System.Drawing.Point(12, 190);
+            this.chkGuess.Name = "chkGuess";
+            this.chkGuess.Size = new System.Drawing.Size(210, 21);
+            this.chkGuess.TabIndex = 17;
+            this.chkGuess.Text = "Magically guess 3DS IP adress?";
+            this.chkGuess.UseVisualStyleBackColor = true;
+            this.chkGuess.CheckedChanged += new System.EventHandler(this.chkGuess_CheckedChanged);
+            // 
             // btnAbout
             // 
             this.btnAbout.Image = global::Boop.Properties.Resources.Boop1;
@@ -235,11 +241,36 @@
             this.btnAbout.TabIndex = 4;
             this.btnAbout.TabStop = false;
             // 
+            // CiaName
+            // 
+            this.CiaName.Text = "Name";
+            this.CiaName.Width = 150;
+            // 
+            // CiaDesc
+            // 
+            this.CiaDesc.Text = "Description";
+            this.CiaDesc.Width = 300;
+            // 
+            // lblImageVersion
+            // 
+            this.lblImageVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblImageVersion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(187)))), ((int)(((byte)(255)))));
+            this.lblImageVersion.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblImageVersion.ForeColor = System.Drawing.Color.White;
+            this.lblImageVersion.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.lblImageVersion.Location = new System.Drawing.Point(201, 149);
+            this.lblImageVersion.Name = "lblImageVersion";
+            this.lblImageVersion.Size = new System.Drawing.Size(160, 34);
+            this.lblImageVersion.TabIndex = 18;
+            this.lblImageVersion.Text = "0.0.0";
+            this.lblImageVersion.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(373, 521);
+            this.Controls.Add(this.lblImageVersion);
             this.Controls.Add(this.chkGuess);
             this.Controls.Add(this.lblUpdates);
             this.Controls.Add(this.linkWhat);
@@ -277,7 +308,7 @@
         private System.Windows.Forms.PictureBox btnAbout;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txt3DS;
-        private System.Windows.Forms.ColumnHeader File;
+        private System.Windows.Forms.ColumnHeader CiaFile;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
         private System.Windows.Forms.Button btnGithub;
@@ -289,6 +320,9 @@
         private System.Windows.Forms.LinkLabel lblUpdates;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox chkGuess;
+        private System.Windows.Forms.ColumnHeader CiaName;
+        private System.Windows.Forms.ColumnHeader CiaDesc;
+        private System.Windows.Forms.Label lblImageVersion;
     }
 }
 

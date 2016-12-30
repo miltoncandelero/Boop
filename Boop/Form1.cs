@@ -96,9 +96,8 @@ namespace Boop
                 string arguments = "advfirewall firewall delete rule name=\"BOOPFILESERVER\"";
                 ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
                 
-                procStartInfo.UseShellExecute = true;
-                procStartInfo.Verb = "runas";
-                //procStartInfo.CreateNoWindow = true;
+                procStartInfo.UseShellExecute = false;
+                procStartInfo.CreateNoWindow = true;
 
                 Process.Start(procStartInfo);
             }
@@ -158,7 +157,35 @@ namespace Boop
             {
                 if (ActiveDir == Path.GetDirectoryName(item))
                 {
-                    lvFileList.Items.Add(Path.GetFileName(item));
+                    if (Path.GetExtension(item) == ".cia")
+                    {
+                        byte[] desc = new Byte[256];
+
+                        byte[] tit = new Byte[128];
+
+                        using (BinaryReader b = new BinaryReader(File.Open(item, FileMode.Open)))
+                        {
+                            b.BaseStream.Seek(-14016 + 520, SeekOrigin.End);
+                            tit = b.ReadBytes(128);
+
+                            b.BaseStream.Seek(-14016 + 520 + 128, SeekOrigin.End);
+                            desc = b.ReadBytes(256);
+                        }
+
+                        string[] tmp = new string[3];
+                        tmp[0] = Path.GetFileName(item);
+                        tmp[1] = Encoding.Unicode.GetString(tit).Trim();
+                        tmp[2] = Encoding.Unicode.GetString(desc).Trim();
+
+
+
+                        lvFileList.Items.Add(new ListViewItem(tmp));
+                    }
+                    else
+                    {
+                        lvFileList.Items.Add(Path.GetFileName(item));
+                    }
+
                 }
                 else
                 {
@@ -224,9 +251,8 @@ namespace Boop
 
             ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
 
-            procStartInfo.UseShellExecute = true; //Shell excecute to try to stop the crashes. :'(
-            procStartInfo.Verb = "runas"; //Force AGAIN! admin rights.
-            //procStartInfo.CreateNoWindow = true; Ignored when shellexcecuted.
+            procStartInfo.UseShellExecute = false; //Shell excecute to try to stop the crashes. :'(
+            procStartInfo.CreateNoWindow = true;
 
             Process.Start(procStartInfo);
 
@@ -305,8 +331,7 @@ namespace Boop
             ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
 
             procStartInfo.UseShellExecute = true;
-            procStartInfo.Verb = "runas";
-            //procStartInfo.CreateNoWindow = true;
+            procStartInfo.CreateNoWindow = true;
 
             Process.Start(procStartInfo);
 
@@ -324,6 +349,8 @@ namespace Boop
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            lblImageVersion.Text = UpdateChecker.GetCurrentVersion();
+            this.Text = "Boop " + UpdateChecker.GetCurrentVersion();
             new Task(CheckForUpdates).Start(); //Async check for updates
             txt3DS.Text = Properties.Settings.Default["saved3DSIP"].ToString();
             chkGuess.Checked = (bool) Properties.Settings.Default["bGuess"];
@@ -396,6 +423,12 @@ namespace Boop
             txt3DS.Enabled = !chkGuess.Checked;
             Properties.Settings.Default["bGuess"] = chkGuess.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void lvFileList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Pls no touching the snek list.
+            lvFileList.SelectedIndices.Clear();
         }
     }
 }

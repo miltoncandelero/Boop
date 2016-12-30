@@ -19,6 +19,8 @@ namespace Boop
 
         private void InfoBox_Load(object sender, EventArgs e)
         {
+            this.Text = "Boop " + UpdateChecker.GetCurrentVersion();
+            label1.Text = UpdateChecker.GetCurrentVersion();
             new Task(LoadContributors).Start();
         }
 
