@@ -20,11 +20,6 @@ namespace Boop
 
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(identity);
-            if (!principal.IsInRole(WindowsBuiltInRole.Administrator))
-            {
-                MessageBox.Show("You must run this application as administrator.","Administrator needed",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                Application.Exit();
-            }
 
             Application.Run(new Form1());
         }

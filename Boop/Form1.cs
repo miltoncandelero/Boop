@@ -10,12 +10,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using rmortega77.CsHTTPServer;
 
 namespace Boop
 {
     public partial class Form1 : Form
-    {
-        SimpleHTTPServer myServer; //Server to host the cia files
+    {        
+        CsHTTPServer HTTPServer;
         Socket s; //Socket to tell FBI where the server is
         string[] FilesToBoop; //Files to be boop'd
         string ActiveDir; //Used to mount the server
@@ -92,19 +93,7 @@ namespace Boop
             //Individual trycatches to make sure everything is off before leaving.
             try
             {
-                //Just in case, fixing the firewall again. I honestly want to be good snek now.
-                string arguments = "advfirewall firewall delete rule name=\"BOOPFILESERVER\"";
-                ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
-                
-                procStartInfo.UseShellExecute = false;
-                procStartInfo.CreateNoWindow = true;
-
-                Process.Start(procStartInfo);
-            }
-            catch {}
-            try
-            {
-                myServer.Stop();
+                HTTPServer.Stop();
             }
             catch { }
 
@@ -197,9 +186,8 @@ namespace Boop
 
         private void btnBoop_Click(object sender, EventArgs e)
         {
-            //Gigantic TryCatch for issue #9. It somehow still freezes.
-//#if DEBUG //Consider closing application on error, and having the try being applied to all builds.
-            //Okay, just for 1.1.0 so we can pin down the pesky #9
+            //Try catch will go away in the future. Left in case somebody still has trouble with the server.
+
             try
             {
                 //#endif
@@ -222,6 +210,7 @@ namespace Boop
                 {
                     MessageBox.Show("Cannot detect the 3DS in the network" + Environment.NewLine + "Try writing the IP adress manually", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     lblIPMarker.Visible = true; //Added red boxes to point out the errors.
+                    setStatusLabel("Ready");
                     return;
                 }
 
@@ -232,37 +221,22 @@ namespace Boop
                 {
                     MessageBox.Show("That doesn't look like an IP address." + Environment.NewLine + "An IP address looks something like this: 192.168.1.6" + Environment.NewLine + "(That is: Numbers DOT numbers DOT numbers DOT numbers)", "Error on the IP address", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     lblIPMarker.Visible = true; //Added red boxes to point out the errors.
+                    setStatusLabel("Ready");
                     return;
                 }
 
                 s3DSip = txt3DS.Text;
             }
 
-                //The current implementation of httpserver runs on httplistener which runs out of http.sys
-                //This means that we are not actively hosting the server, http.sys is. We just get to know everything thats happening.
-                //The app that needs to be put through firewall is http.sys and that doesn't trigger the firewall warning and is not allowed to accept incoming connections.
-                //Thats why the firewall is poked like this.      
-                //#11
+                // THE FIREWALL IS NO LONGER POKED!
+                // THE SNEK IS FREE FROM THE HTTPLISTENER TIRANY!
 
-            setStatusLabel("Piercing firewall...");
-
-            string arguments = "advfirewall firewall add rule name=\"BOOPFILESERVER\" dir=in action=allow protocol=TCP localport=8080";
-
-
-            ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
-
-            procStartInfo.UseShellExecute = false; //Shell excecute to try to stop the crashes. :'(
-            procStartInfo.CreateNoWindow = true;
-
-            Process.Start(procStartInfo);
-
-            System.Threading.Thread.Sleep(1000); // Could this fix the mysterious crashes? Maybe if we try to open the server while firewall is doing his thing we blow up? :S
-
-            setStatusLabel("Opening httpserver...");
+            setStatusLabel("Opening the new and improved snek server...");
             enableControls(false);
- 
 
-            myServer = new SimpleHTTPServer(ActiveDir, 8080);
+            HTTPServer = new MyServer(8080, ActiveDir);
+            HTTPServer.Start();
+                
             
             System.Threading.Thread.Sleep(100);
 
@@ -276,7 +250,7 @@ namespace Boop
                 if (!s.Connected)
                 {
                     s.Close();
-                    myServer.Stop();
+                    HTTPServer.Stop();
                     MessageBox.Show("Failed to connect to 3DS"+Environment.NewLine+"Please check:"+Environment.NewLine+ "Did you write the right IP adress?" +Environment.NewLine + "Is FBI open and listening?", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     lblIPMarker.Visible = true;
                     setStatusLabel("Ready");
@@ -326,17 +300,8 @@ namespace Boop
                 MessageBox.Show("Booping complete!", "Yay!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             });
 
-            //Fixing your firewall. I am good snek now
-            string arguments = "advfirewall firewall delete rule name=\"BOOPFILESERVER\"";
-            ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
-
-            procStartInfo.UseShellExecute = true;
-            procStartInfo.CreateNoWindow = true;
-
-            Process.Start(procStartInfo);
-
             s.Close();
-            myServer.Stop();
+            HTTPServer.Stop();
         }
 
         static byte[] AppendTwoByteArrays(byte[] arrayA, byte[] arrayB) //Aux function to append the 2 byte arrays.
