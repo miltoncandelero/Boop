@@ -90,7 +90,8 @@ namespace rmortega77.CsHTTPServer
 			bool done = false;
             IPAddress ipAddress = Dns.GetHostEntry(Dns.GetHostName()).AddressList[0];
 
-            listener = new TcpListener(portNum);
+            //listener = new TcpListener(portNum);
+            listener = new TcpListener(IPAddress.Any,portNum);
 			
 			listener.Start();
 

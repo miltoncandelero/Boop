@@ -14,6 +14,7 @@ using rmortega77.CsHTTPServer;
 
 namespace Boop
 {
+
     public partial class Form1 : Form
     {        
         CsHTTPServer HTTPServer;
@@ -73,7 +74,7 @@ namespace Boop
                     this.Invoke((MethodInvoker)delegate
                     {
                         lblUpdates.Enabled = false;
-                        lblUpdates.Text = "No updates availables";
+                        lblUpdates.Text = "No updates available";
                     });
                 }
             }
@@ -188,6 +189,14 @@ namespace Boop
         {
             //Try catch will go away in the future. Left in case somebody still has trouble with the server.
 
+            if (NetUtil.IPv4.iIPIndex == -1)
+            {
+                MessageBox.Show("Your computer is not connected to a network!" + Environment.NewLine + "If you connected your computer after opening Boop, please restart Boop", "No local network detected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Added red boxes to point out the errors.
+                return;
+            }
+
+
             try
             {
                 //#endif
@@ -261,9 +270,11 @@ namespace Boop
                 setStatusLabel("Sending the file list...");
 
             String message = "";
+                
             foreach (var CIA in FilesToBoop)
             {
-               message += NetUtil.IPv4.Local + ":8080/" + Uri.EscapeUriString(Path.GetFileName(CIA)) + "\n";
+               message += NetUtil.IPv4.Local + ":8080/" + System.Web.HttpUtility.UrlEncode(Path.GetFileName(CIA)) + "\n";
+                    //message += NetUtil.IPv4.Local + ":8080/" + Uri.EscapeUriString(Path.GetFileName(CIA)) + "\n";
             }
 
             //boop the info to the 3ds...
@@ -314,12 +325,58 @@ namespace Boop
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            cboLocalIP.DataSource = Dns.GetHostEntry(Dns.GetHostName()).AddressList.DefaultIfEmpty(IPAddress.Loopback).Where(ip => ip.AddressFamily == AddressFamily.InterNetwork).Select(ip => ip.ToString()).ToArray();
+
             lblImageVersion.Text = UpdateChecker.GetCurrentVersion();
             this.Text = "Boop " + UpdateChecker.GetCurrentVersion();
             new Task(CheckForUpdates).Start(); //Async check for updates
             txt3DS.Text = Properties.Settings.Default["saved3DSIP"].ToString();
             chkGuess.Checked = (bool) Properties.Settings.Default["bGuess"];
             txt3DS.Enabled = !chkGuess.Checked;
+        }
+
+        private void Form1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+
+        private void Form1_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+
+                List<String> Boops = new List<String>(); //Initialize a temporal list.
+
+                string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+                foreach (string arg in filePaths)
+                {
+
+                    if (System.IO.File.Exists(arg)) //Is it a file?
+                    {
+                        if (Path.GetExtension(arg) == ".cia" || Path.GetExtension(arg) == ".tik") //Is it a supported file?
+                        {
+                            Boops.Add(arg); //Add it.
+                        }
+                    }
+
+                }
+
+                if (Boops.Count > 0) //If we had any supported file
+                {
+                    lvFileList.Items.Clear();
+                    FilesToBoop = Boops.ToArray(); //Set them
+                    ProcessFilenames(); //Add them to the list.
+                }
+
+            }
         }
 
         private void enableControls(bool enabled)
@@ -394,6 +451,16 @@ namespace Boop
         {
             //Pls no touching the snek list.
             lvFileList.SelectedIndices.Clear();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            NetUtil.IPv4.iIPIndex = cboLocalIP.SelectedIndex;
+        }
+
+        private void lblPCIP_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MessageBox.Show("Although the server opens for ALL networks, we need to send only ONE IP address to your 3DS." +Environment.NewLine+ "The program used to pick the first IP and most of the times it grabbed the correct one... and sometimes failed miserably." + Environment.NewLine + "If you are connected to more than one network make sure your IP adress is right.", "Do you even network bro?", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.lvFileList = new System.Windows.Forms.ListView();
             this.CiaFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CiaName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CiaDesc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnBoop = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txt3DS = new System.Windows.Forms.TextBox();
@@ -48,9 +50,11 @@
             this.btnGithub = new System.Windows.Forms.Button();
             this.chkGuess = new System.Windows.Forms.CheckBox();
             this.btnAbout = new System.Windows.Forms.PictureBox();
-            this.CiaName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CiaDesc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblImageVersion = new System.Windows.Forms.Label();
+            this.cboLocalIP = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblPCIP = new System.Windows.Forms.LinkLabel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnAbout)).BeginInit();
             this.SuspendLayout();
@@ -64,7 +68,7 @@
             this.lvFileList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvFileList.FullRowSelect = true;
             this.lvFileList.GridLines = true;
-            this.lvFileList.Location = new System.Drawing.Point(12, 246);
+            this.lvFileList.Location = new System.Drawing.Point(12, 309);
             this.lvFileList.Name = "lvFileList";
             this.lvFileList.Size = new System.Drawing.Size(350, 198);
             this.lvFileList.TabIndex = 1;
@@ -77,10 +81,20 @@
             this.CiaFile.Text = "File";
             this.CiaFile.Width = 150;
             // 
+            // CiaName
+            // 
+            this.CiaName.Text = "Name";
+            this.CiaName.Width = 150;
+            // 
+            // CiaDesc
+            // 
+            this.CiaDesc.Text = "Description";
+            this.CiaDesc.Width = 300;
+            // 
             // btnBoop
             // 
             this.btnBoop.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBoop.Location = new System.Drawing.Point(12, 450);
+            this.btnBoop.Location = new System.Drawing.Point(12, 513);
             this.btnBoop.Name = "btnBoop";
             this.btnBoop.Size = new System.Drawing.Size(350, 42);
             this.btnBoop.TabIndex = 2;
@@ -92,7 +106,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 217);
+            this.label1.Location = new System.Drawing.Point(12, 243);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(103, 17);
             this.label1.TabIndex = 5;
@@ -102,7 +116,7 @@
             // 
             this.txt3DS.Enabled = false;
             this.txt3DS.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt3DS.Location = new System.Drawing.Point(115, 214);
+            this.txt3DS.Location = new System.Drawing.Point(116, 240);
             this.txt3DS.MaxLength = 15;
             this.txt3DS.Name = "txt3DS";
             this.txt3DS.Size = new System.Drawing.Size(104, 25);
@@ -116,7 +130,7 @@
             this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 499);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 561);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(373, 22);
             this.statusStrip1.TabIndex = 7;
@@ -133,21 +147,20 @@
             this.btnPickFiles.AutoSize = true;
             this.btnPickFiles.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPickFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPickFiles.Location = new System.Drawing.Point(286, 190);
+            this.btnPickFiles.Location = new System.Drawing.Point(12, 273);
             this.btnPickFiles.Name = "btnPickFiles";
-            this.btnPickFiles.Size = new System.Drawing.Size(76, 50);
+            this.btnPickFiles.Size = new System.Drawing.Size(350, 30);
             this.btnPickFiles.TabIndex = 0;
             this.btnPickFiles.Text = "Pick files";
-            this.btnPickFiles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPickFiles.UseVisualStyleBackColor = true;
             this.btnPickFiles.Click += new System.EventHandler(this.btnPickFiles_Click);
             // 
             // HomeMadeGettoDivider
             // 
             this.HomeMadeGettoDivider.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.HomeMadeGettoDivider.Location = new System.Drawing.Point(274, 189);
+            this.HomeMadeGettoDivider.Location = new System.Drawing.Point(12, 268);
             this.HomeMadeGettoDivider.Name = "HomeMadeGettoDivider";
-            this.HomeMadeGettoDivider.Size = new System.Drawing.Size(2, 50);
+            this.HomeMadeGettoDivider.Size = new System.Drawing.Size(352, 2);
             this.HomeMadeGettoDivider.TabIndex = 12;
             this.HomeMadeGettoDivider.Text = "label2";
             // 
@@ -155,18 +168,18 @@
             // 
             this.linkWhat.AutoSize = true;
             this.linkWhat.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkWhat.Location = new System.Drawing.Point(225, 217);
+            this.linkWhat.Location = new System.Drawing.Point(226, 243);
             this.linkWhat.Name = "linkWhat";
-            this.linkWhat.Size = new System.Drawing.Size(46, 17);
+            this.linkWhat.Size = new System.Drawing.Size(127, 17);
             this.linkWhat.TabIndex = 13;
             this.linkWhat.TabStop = true;
-            this.linkWhat.Text = "My IP?";
+            this.linkWhat.Text = "Where is my 3DS IP?";
             this.linkWhat.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkWhat_LinkClicked);
             // 
             // lblIPMarker
             // 
             this.lblIPMarker.BackColor = System.Drawing.Color.Red;
-            this.lblIPMarker.Location = new System.Drawing.Point(114, 213);
+            this.lblIPMarker.Location = new System.Drawing.Point(115, 239);
             this.lblIPMarker.Name = "lblIPMarker";
             this.lblIPMarker.Size = new System.Drawing.Size(106, 27);
             this.lblIPMarker.TabIndex = 14;
@@ -175,9 +188,9 @@
             // lblFileMarker
             // 
             this.lblFileMarker.BackColor = System.Drawing.Color.Red;
-            this.lblFileMarker.Location = new System.Drawing.Point(285, 189);
+            this.lblFileMarker.Location = new System.Drawing.Point(11, 272);
             this.lblFileMarker.Name = "lblFileMarker";
-            this.lblFileMarker.Size = new System.Drawing.Size(78, 52);
+            this.lblFileMarker.Size = new System.Drawing.Size(352, 32);
             this.lblFileMarker.TabIndex = 15;
             this.lblFileMarker.Visible = false;
             // 
@@ -188,10 +201,10 @@
             this.lblUpdates.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUpdates.Location = new System.Drawing.Point(12, 7);
             this.lblUpdates.Name = "lblUpdates";
-            this.lblUpdates.Size = new System.Drawing.Size(126, 17);
+            this.lblUpdates.Size = new System.Drawing.Size(132, 17);
             this.lblUpdates.TabIndex = 16;
             this.lblUpdates.TabStop = true;
-            this.lblUpdates.Text = "Looking for updates";
+            this.lblUpdates.Text = "No updates available";
             this.lblUpdates.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblUpdates_LinkClicked);
             // 
             // btnInfo
@@ -224,7 +237,7 @@
             this.chkGuess.Checked = true;
             this.chkGuess.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkGuess.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkGuess.Location = new System.Drawing.Point(12, 190);
+            this.chkGuess.Location = new System.Drawing.Point(12, 218);
             this.chkGuess.Name = "chkGuess";
             this.chkGuess.Size = new System.Drawing.Size(210, 21);
             this.chkGuess.TabIndex = 17;
@@ -241,19 +254,8 @@
             this.btnAbout.TabIndex = 4;
             this.btnAbout.TabStop = false;
             // 
-            // CiaName
-            // 
-            this.CiaName.Text = "Name";
-            this.CiaName.Width = 150;
-            // 
-            // CiaDesc
-            // 
-            this.CiaDesc.Text = "Description";
-            this.CiaDesc.Width = 300;
-            // 
             // lblImageVersion
             // 
-            this.lblImageVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblImageVersion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(187)))), ((int)(((byte)(255)))));
             this.lblImageVersion.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblImageVersion.ForeColor = System.Drawing.Color.White;
@@ -265,11 +267,61 @@
             this.lblImageVersion.Text = "0.0.0";
             this.lblImageVersion.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
+            // cboLocalIP
+            // 
+            this.cboLocalIP.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboLocalIP.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboLocalIP.FormattingEnabled = true;
+            this.cboLocalIP.Items.AddRange(new object[] {
+            "666.666.666.666"});
+            this.cboLocalIP.Location = new System.Drawing.Point(144, 188);
+            this.cboLocalIP.Name = "cboLocalIP";
+            this.cboLocalIP.Size = new System.Drawing.Size(125, 25);
+            this.cboLocalIP.TabIndex = 19;
+            this.cboLocalIP.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(11, 191);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(131, 17);
+            this.label2.TabIndex = 20;
+            this.label2.Text = "Computer IP Adress: ";
+            // 
+            // label3
+            // 
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label3.Location = new System.Drawing.Point(12, 216);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(352, 2);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "label2";
+            // 
+            // lblPCIP
+            // 
+            this.lblPCIP.AutoEllipsis = true;
+            this.lblPCIP.AutoSize = true;
+            this.lblPCIP.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPCIP.Location = new System.Drawing.Point(273, 191);
+            this.lblPCIP.Name = "lblPCIP";
+            this.lblPCIP.Size = new System.Drawing.Size(86, 17);
+            this.lblPCIP.TabIndex = 22;
+            this.lblPCIP.TabStop = true;
+            this.lblPCIP.Text = "Computer IP?";
+            this.lblPCIP.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblPCIP_LinkClicked);
+            // 
             // Form1
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(373, 521);
+            this.ClientSize = new System.Drawing.Size(373, 583);
+            this.Controls.Add(this.lblPCIP);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cboLocalIP);
             this.Controls.Add(this.lblImageVersion);
             this.Controls.Add(this.chkGuess);
             this.Controls.Add(this.lblUpdates);
@@ -292,6 +344,8 @@
             this.Name = "Form1";
             this.Text = "Boop 1.2.0";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnAbout)).EndInit();
@@ -323,6 +377,10 @@
         private System.Windows.Forms.ColumnHeader CiaName;
         private System.Windows.Forms.ColumnHeader CiaDesc;
         private System.Windows.Forms.Label lblImageVersion;
+        private System.Windows.Forms.ComboBox cboLocalIP;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.LinkLabel lblPCIP;
     }
 }
 

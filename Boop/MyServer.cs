@@ -51,7 +51,9 @@ namespace rmortega77.CsHTTPServer
 		public override void OnResponse(ref HTTPRequestStruct rq, ref HTTPResponseStruct rp)
 		{
 			string path = this.Folder + rq.URL.Replace("/",@"\");
-            path = path.Replace("%20", " ");
+
+            //path = HttpUtility.UrlDecode(path); WOT??
+            //path = path.Replace("%20", " ");
 
 
 			if (Directory.Exists(path))
