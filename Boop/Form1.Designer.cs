@@ -44,7 +44,6 @@
             this.linkWhat = new System.Windows.Forms.LinkLabel();
             this.lblIPMarker = new System.Windows.Forms.Label();
             this.lblFileMarker = new System.Windows.Forms.Label();
-            this.lblUpdates = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnInfo = new System.Windows.Forms.Button();
             this.btnGithub = new System.Windows.Forms.Button();
@@ -194,19 +193,6 @@
             this.lblFileMarker.TabIndex = 15;
             this.lblFileMarker.Visible = false;
             // 
-            // lblUpdates
-            // 
-            this.lblUpdates.AutoSize = true;
-            this.lblUpdates.Enabled = false;
-            this.lblUpdates.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUpdates.Location = new System.Drawing.Point(12, 7);
-            this.lblUpdates.Name = "lblUpdates";
-            this.lblUpdates.Size = new System.Drawing.Size(132, 17);
-            this.lblUpdates.TabIndex = 16;
-            this.lblUpdates.TabStop = true;
-            this.lblUpdates.Text = "No updates available";
-            this.lblUpdates.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblUpdates_LinkClicked);
-            // 
             // btnInfo
             // 
             this.btnInfo.AutoSize = true;
@@ -324,7 +310,6 @@
             this.Controls.Add(this.cboLocalIP);
             this.Controls.Add(this.lblImageVersion);
             this.Controls.Add(this.chkGuess);
-            this.Controls.Add(this.lblUpdates);
             this.Controls.Add(this.linkWhat);
             this.Controls.Add(this.HomeMadeGettoDivider);
             this.Controls.Add(this.btnInfo);
@@ -371,7 +356,6 @@
         private System.Windows.Forms.LinkLabel linkWhat;
         private System.Windows.Forms.Label lblIPMarker;
         private System.Windows.Forms.Label lblFileMarker;
-        private System.Windows.Forms.LinkLabel lblUpdates;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox chkGuess;
         private System.Windows.Forms.ColumnHeader CiaName;

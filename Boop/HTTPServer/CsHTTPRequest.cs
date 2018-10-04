@@ -25,7 +25,7 @@ using System.Collections;
 using System.Globalization;
 using System.Web;
 
-namespace rmortega77.CsHTTPServer
+namespace HTTPServer
 {
 	enum RState
 	{

@@ -18,7 +18,7 @@
 // just write me.
 
 
-//I owe this guy ^ a beer.
+//I owe this guy ^ a beer. - Elemental Code @ 2017, 2018 and beyond.
 
 using System;
 using System.Text;
@@ -29,7 +29,7 @@ using System.Web;
 using Microsoft.Win32;
 
 
-namespace rmortega77.CsHTTPServer
+namespace HTTPServer
 {
 	/// <summary>
 	/// Summary description for MyServer.

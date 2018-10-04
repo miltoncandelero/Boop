@@ -22,10 +22,13 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Collections;
 using System.Net;
+using System.Windows.Forms;
+using System.Net.NetworkInformation;
+
 
 //using System.Text;
 
-namespace rmortega77.CsHTTPServer
+namespace HTTPServer
 {
 	/// <summary>
 	/// Summary description for CsHTTPServer.
@@ -92,10 +95,25 @@ namespace rmortega77.CsHTTPServer
 
             //listener = new TcpListener(portNum);
             listener = new TcpListener(IPAddress.Any,portNum);
-			
-			listener.Start();
 
-			WriteLog("Listening On: " + portNum.ToString());
+            if (PortInUse(portNum))
+            {
+                MessageBox.Show("Port "+portNum+" In Use\nTry with a different one.", "Port Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                listener.Start();
+            }
+            catch (SocketException _ex)
+            {
+                WriteLog("Socket Error: " + _ex.ErrorCode);
+                MessageBox.Show("Error Code:" + _ex.ErrorCode, "Socket Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            WriteLog("Listening On: " + portNum.ToString());
 
 			while (!done) 
 			{
@@ -114,8 +132,30 @@ namespace rmortega77.CsHTTPServer
             }
 
 		}
-   
-		public void WriteLog(string EventMessage)
+
+        /// <summary>
+        /// TestPort
+        /// </summary>
+        /// <param name="port"></param>
+        /// <returns></returns>
+        internal bool PortInUse(int port)
+        {
+            bool inUse = false;
+            IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
+            foreach (IPEndPoint endPoint in ipEndPoints)
+            {
+                if (endPoint.Port == port)
+                {
+                    WriteLog(endPoint.Port + "");
+                    inUse = true;
+                    break;
+                }
+            }
+            return inUse;
+        }
+
+        public void WriteLog(string EventMessage)
 		{
 			Console.WriteLine(EventMessage);
 		}

@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using rmortega77.CsHTTPServer;
+using HTTPServer;
 
 namespace Boop
 {
@@ -21,7 +21,6 @@ namespace Boop
         Socket s; //Socket to tell FBI where the server is
         string[] FilesToBoop; //Files to be boop'd
         string ActiveDir; //Used to mount the server
-        UpdateChecker UC; // Update checker.
 
         public Form1()
         {
@@ -51,41 +50,6 @@ namespace Boop
                 }
             }
 
-        }
-
-        /// <summary>
-        /// Used as a task to not freeze the thread. (I am not really good with asyncs, maybe there are better ways to do this)
-        /// </summary>
-        private void CheckForUpdates()
-        {
-            UC = new UpdateChecker();
-            try
-            {
-                if (UC.CheckForUpdates())
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        lblUpdates.Enabled = true;
-                        lblUpdates.Text = "New version found!";
-                    });
-                }
-                else
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        lblUpdates.Enabled = false;
-                        lblUpdates.Text = "No updates available";
-                    });
-                }
-            }
-            catch (Exception) //Most likely, internet connection is down.
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    lblUpdates.Enabled = false;
-                    lblUpdates.Text = "Error contacting update server";
-                });
-            }
         }
 
 
@@ -327,9 +291,8 @@ namespace Boop
         {
             cboLocalIP.DataSource = Dns.GetHostEntry(Dns.GetHostName()).AddressList.DefaultIfEmpty(IPAddress.Loopback).Where(ip => ip.AddressFamily == AddressFamily.InterNetwork).Select(ip => ip.ToString()).ToArray();
 
-            lblImageVersion.Text = UpdateChecker.GetCurrentVersion();
-            this.Text = "Boop " + UpdateChecker.GetCurrentVersion();
-            new Task(CheckForUpdates).Start(); //Async check for updates
+            lblImageVersion.Text = Utils.GetCurrentVersion();
+            this.Text = "Boop " + Utils.GetCurrentVersion();
             txt3DS.Text = Properties.Settings.Default["saved3DSIP"].ToString();
             chkGuess.Checked = (bool) Properties.Settings.Default["bGuess"];
             txt3DS.Enabled = !chkGuess.Checked;
@@ -427,11 +390,6 @@ namespace Boop
         private void btnGithub_Click(object sender, EventArgs e) //New cooler github button
         {
             Process.Start(@"https://github.com/miltoncandelero/Boop");
-        }
-
-        private void lblUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) //Go to update page
-        {
-            Process.Start(UC.sUrl);
         }
 
         private void btnInfo_Click(object sender, EventArgs e) //New super cool snek about form
