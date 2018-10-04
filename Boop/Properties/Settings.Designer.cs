@@ -26,24 +26,24 @@ namespace Boop.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.1")]
-        public string saved3DSIP {
+        public string savedIP {
             get {
-                return ((string)(this["saved3DSIP"]));
+                return ((string)(this["savedIP"]));
             }
             set {
-                this["saved3DSIP"] = value;
+                this["savedIP"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool bGuess {
+        [global::System.Configuration.DefaultSettingValueAttribute("8080")]
+        public string savedPort {
             get {
-                return ((bool)(this["bGuess"]));
+                return ((string)(this["savedPort"]));
             }
             set {
-                this["bGuess"] = value;
+                this["savedPort"] = value;
             }
         }
     }

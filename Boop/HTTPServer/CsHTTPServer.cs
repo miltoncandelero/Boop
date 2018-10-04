@@ -95,13 +95,6 @@ namespace HTTPServer
 
             //listener = new TcpListener(portNum);
             listener = new TcpListener(IPAddress.Any,portNum);
-
-            if (PortInUse(portNum))
-            {
-                MessageBox.Show("Port "+portNum+" In Use\nTry with a different one.", "Port Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                return;
-            }
-
             try
             {
                 listener.Start();
@@ -132,28 +125,6 @@ namespace HTTPServer
             }
 
 		}
-
-        /// <summary>
-        /// TestPort
-        /// </summary>
-        /// <param name="port"></param>
-        /// <returns></returns>
-        internal bool PortInUse(int port)
-        {
-            bool inUse = false;
-            IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
-            IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
-            foreach (IPEndPoint endPoint in ipEndPoints)
-            {
-                if (endPoint.Port == port)
-                {
-                    WriteLog(endPoint.Port + "");
-                    inUse = true;
-                    break;
-                }
-            }
-            return inUse;
-        }
 
         public void WriteLog(string EventMessage)
 		{

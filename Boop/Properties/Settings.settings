@@ -2,11 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Boop.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="saved3DSIP" Type="System.String" Scope="User">
+    <Setting Name="savedIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">192.168.1.1</Value>
     </Setting>
-    <Setting Name="bGuess" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+    <Setting Name="savedPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">8080</Value>
     </Setting>
   </Settings>
 </SettingsFile>
