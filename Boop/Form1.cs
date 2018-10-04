@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using rmortega77.CsHTTPServer;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,21 +7,18 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using rmortega77.CsHTTPServer;
 
 namespace Boop
 {
-
     public partial class Form1 : Form
-    {        
-        CsHTTPServer HTTPServer;
-        Socket s; //Socket to tell FBI where the server is
-        string[] FilesToBoop; //Files to be boop'd
-        string ActiveDir; //Used to mount the server
-        UpdateChecker UC; // Update checker.
+    {
+        private CsHTTPServer HTTPServer;
+        private Socket s; //Socket to tell FBI where the server is
+        private string[] FilesToBoop; //Files to be boop'd
+        private string ActiveDir; //Used to mount the server
+        private UpdateChecker UC; // Update checker.
 
         public Form1()
         {
@@ -50,7 +47,6 @@ namespace Boop
                     ProcessFilenames(); //Add them to the list.
                 }
             }
-
         }
 
         /// <summary>
@@ -88,7 +84,6 @@ namespace Boop
             }
         }
 
-
         private void OnApplicationExit(object sender, EventArgs e)
         {
             //Individual trycatches to make sure everything is off before leaving.
@@ -103,7 +98,6 @@ namespace Boop
                 s.Close();
             }
             catch { }
-
         }
 
         private void btnPickFiles_Click(object sender, EventArgs e)
@@ -123,17 +117,16 @@ namespace Boop
 
             bool? userClickedOK = (OFD.ShowDialog() == DialogResult.OK);
 
-
             // Process input if the user clicked OK.
             if (userClickedOK == true)
             {
-                if (OFD.FileNames.Length > 0) {
+                if (OFD.FileNames.Length > 0)
+                {
                     lvFileList.Items.Clear();
                     FilesToBoop = OFD.FileNames;
                     ProcessFilenames(); // I splited this button in order to reuse the code for the drag and drop support.
                 }
-
-             }
+            }
         }
 
         /// <summary>
@@ -167,21 +160,17 @@ namespace Boop
                         tmp[1] = Encoding.Unicode.GetString(tit).Trim();
                         tmp[2] = Encoding.Unicode.GetString(desc).Trim();
 
-
-
                         lvFileList.Items.Add(new ListViewItem(tmp));
                     }
                     else
                     {
                         lvFileList.Items.Add(Path.GetFileName(item));
                     }
-
                 }
                 else
                 {
                     MessageBox.Show("You picked 2 files that are NOT in the same directory" + Environment.NewLine + "Cross-Directory booping would need the entire computer hosted to the network and that doesn't feel safe in my book." + Environment.NewLine + "Maybe in the future I'll find a way to do this.", "Woah there...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
             }
         }
 
@@ -196,62 +185,58 @@ namespace Boop
                 return;
             }
 
-
             try
             {
                 //#endif
 
                 //Fastest check first.
-            if (lvFileList.Items.Count == 0)
-            {
-                MessageBox.Show("Add some files first?", "No files to boop", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                lblFileMarker.Visible = true; //Added red boxes to point out the errors.
-                return;
-            }
-
-
-            string s3DSip = "";
-            if (chkGuess.Checked)
-            {
-                setStatusLabel("Guessing 3DS IP adress...");
-                s3DSip = NetUtil.IPv4.GetFirst3DS();
-                if (s3DSip == "")
+                if (lvFileList.Items.Count == 0)
                 {
-                    MessageBox.Show("Cannot detect the 3DS in the network" + Environment.NewLine + "Try writing the IP adress manually", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    lblIPMarker.Visible = true; //Added red boxes to point out the errors.
-                    setStatusLabel("Ready");
+                    MessageBox.Show("Add some files first?", "No files to boop", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lblFileMarker.Visible = true; //Added red boxes to point out the errors.
                     return;
                 }
 
+                string s3DSip = "";
+                if (chkGuess.Checked)
+                {
+                    setStatusLabel("Guessing 3DS IP adress...");
+                    s3DSip = NetUtil.IPv4.GetFirst3DS();
+                    if (s3DSip == "")
+                    {
+                        MessageBox.Show("Cannot detect the 3DS in the network" + Environment.NewLine + "Try writing the IP adress manually", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        lblIPMarker.Visible = true; //Added red boxes to point out the errors.
+                        setStatusLabel("Ready");
+                        return;
+                    }
                 }
                 else
-            {
-                if (NetUtil.IPv4.Validate(txt3DS.Text) == false)
                 {
-                    MessageBox.Show("That doesn't look like an IP address." + Environment.NewLine + "An IP address looks something like this: 192.168.1.6" + Environment.NewLine + "(That is: Numbers DOT numbers DOT numbers DOT numbers)", "Error on the IP address", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    lblIPMarker.Visible = true; //Added red boxes to point out the errors.
-                    setStatusLabel("Ready");
-                    return;
-                }
+                    if (NetUtil.IPv4.Validate(txt3DS.Text) == false)
+                    {
+                        MessageBox.Show("That doesn't look like an IP address." + Environment.NewLine + "An IP address looks something like this: 192.168.1.6" + Environment.NewLine + "(That is: Numbers DOT numbers DOT numbers DOT numbers)", "Error on the IP address", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        lblIPMarker.Visible = true; //Added red boxes to point out the errors.
+                        setStatusLabel("Ready");
+                        return;
+                    }
 
-                s3DSip = txt3DS.Text;
-            }
+                    s3DSip = txt3DS.Text;
+                }
 
                 // THE FIREWALL IS NO LONGER POKED!
                 // THE SNEK IS FREE FROM THE HTTPLISTENER TIRANY!
 
-            setStatusLabel("Opening the new and improved snek server...");
-            enableControls(false);
+                setStatusLabel("Opening the new and improved snek server...");
+                enableControls(false);
 
-            HTTPServer = new MyServer(8080, ActiveDir);
-            HTTPServer.Start();
-                
-            
-            System.Threading.Thread.Sleep(100);
+                HTTPServer = new MyServer(8080, ActiveDir);
+                HTTPServer.Start();
 
-            setStatusLabel("Opening socket to send the file list...");
+                System.Threading.Thread.Sleep(100);
 
-            s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                setStatusLabel("Opening socket to send the file list...");
+
+                s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 IAsyncResult result = s.BeginConnect(s3DSip, 5000, null, null);
                 result.AsyncWaitHandle.WaitOne(5000, true);
@@ -260,7 +245,7 @@ namespace Boop
                 {
                     s.Close();
                     HTTPServer.Stop();
-                    MessageBox.Show("Failed to connect to 3DS"+Environment.NewLine+"Please check:"+Environment.NewLine+ "Did you write the right IP adress?" +Environment.NewLine + "Is FBI open and listening?", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to connect to 3DS" + Environment.NewLine + "Please check:" + Environment.NewLine + "Did you write the right IP adress?" + Environment.NewLine + "Is FBI open and listening?", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     lblIPMarker.Visible = true;
                     setStatusLabel("Ready");
                     enableControls(true);
@@ -269,39 +254,39 @@ namespace Boop
 
                 setStatusLabel("Sending the file list...");
 
-            String message = "";
-                
-            foreach (var CIA in FilesToBoop)
-            {
-               message += NetUtil.IPv4.Local + ":8080/" + System.Web.HttpUtility.UrlEncode(Path.GetFileName(CIA)) + "\n";
+                String message = "";
+
+                foreach (var CIA in FilesToBoop)
+                {
+                    message += NetUtil.IPv4.Local + ":8080/" + System.Web.HttpUtility.UrlEncode(Path.GetFileName(CIA)) + "\n";
                     //message += NetUtil.IPv4.Local + ":8080/" + Uri.EscapeUriString(Path.GetFileName(CIA)) + "\n";
-            }
+                }
 
-            //boop the info to the 3ds...
-            byte[] Largo = BitConverter.GetBytes((uint)Encoding.ASCII.GetBytes(message).Length);
-            byte[] Adress = Encoding.ASCII.GetBytes(message);
+                //boop the info to the 3ds...
+                byte[] Largo = BitConverter.GetBytes((uint)Encoding.ASCII.GetBytes(message).Length);
+                byte[] Adress = Encoding.ASCII.GetBytes(message);
 
-            Array.Reverse(Largo); //Endian fix
+                Array.Reverse(Largo); //Endian fix
 
-            s.Send(AppendTwoByteArrays(Largo, Adress));
+                s.Send(AppendTwoByteArrays(Largo, Adress));
 
-            setStatusLabel("Booping files... Please wait");
-            s.BeginReceive(new byte[1], 0,1, 0, new AsyncCallback(GotData), null); //Call me back when the 3ds says something.
+                setStatusLabel("Booping files... Please wait");
+                s.BeginReceive(new byte[1], 0, 1, 0, new AsyncCallback(GotData), null); //Call me back when the 3ds says something.
 
-//#if DEBUG
+                //#if DEBUG
             }
             catch (Exception ex)
             {
                 //Hopefully, some day we can have all the different exceptions handled... One can dream, right? *-*
-                MessageBox.Show("Something went really wrong: " + Environment.NewLine + Environment.NewLine + "\"" + ex.Message + "\"" + Environment.NewLine + Environment.NewLine + "If this keeps happening, please take a screenshot of this message and post it on our github." + Environment.NewLine + Environment.NewLine + "The program will close now","Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Something went really wrong: " + Environment.NewLine + Environment.NewLine + "\"" + ex.Message + "\"" + Environment.NewLine + Environment.NewLine + "If this keeps happening, please take a screenshot of this message and post it on our github." + Environment.NewLine + Environment.NewLine + "The program will close now", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 Application.Exit();
             }
-//#endif
+            //#endif
         }
 
         private void GotData(IAsyncResult ar)
         {
-            
             // now we unlock the controls...
             //Spooky "thread safe" way to access UI from ASYNC.
             this.Invoke((MethodInvoker)delegate
@@ -315,7 +300,7 @@ namespace Boop
             HTTPServer.Stop();
         }
 
-        static byte[] AppendTwoByteArrays(byte[] arrayA, byte[] arrayB) //Aux function to append the 2 byte arrays.
+        private static byte[] AppendTwoByteArrays(byte[] arrayA, byte[] arrayB) //Aux function to append the 2 byte arrays.
         {
             byte[] outputBytes = new byte[arrayA.Length + arrayB.Length];
             Buffer.BlockCopy(arrayA, 0, outputBytes, 0, arrayA.Length);
@@ -331,7 +316,7 @@ namespace Boop
             this.Text = "Boop " + UpdateChecker.GetCurrentVersion();
             new Task(CheckForUpdates).Start(); //Async check for updates
             txt3DS.Text = Properties.Settings.Default["saved3DSIP"].ToString();
-            chkGuess.Checked = (bool) Properties.Settings.Default["bGuess"];
+            chkGuess.Checked = (bool)Properties.Settings.Default["bGuess"];
             txt3DS.Enabled = !chkGuess.Checked;
         }
 
@@ -347,18 +332,15 @@ namespace Boop
             }
         }
 
-
         private void Form1_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-
                 List<String> Boops = new List<String>(); //Initialize a temporal list.
 
                 string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
                 foreach (string arg in filePaths)
                 {
-
                     if (System.IO.File.Exists(arg)) //Is it a file?
                     {
                         if (Path.GetExtension(arg) == ".cia" || Path.GetExtension(arg) == ".tik") //Is it a supported file?
@@ -366,7 +348,6 @@ namespace Boop
                             Boops.Add(arg); //Add it.
                         }
                     }
-
                 }
 
                 if (Boops.Count > 0) //If we had any supported file
@@ -375,7 +356,6 @@ namespace Boop
                     FilesToBoop = Boops.ToArray(); //Set them
                     ProcessFilenames(); //Add them to the list.
                 }
-
             }
         }
 
@@ -460,7 +440,7 @@ namespace Boop
 
         private void lblPCIP_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show("Although the server opens for ALL networks, we need to send only ONE IP address to your 3DS." +Environment.NewLine+ "The program used to pick the first IP and most of the times it grabbed the correct one... and sometimes failed miserably." + Environment.NewLine + "If you are connected to more than one network make sure your IP adress is right.", "Do you even network bro?", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Although the server opens for ALL networks, we need to send only ONE IP address to your 3DS." + Environment.NewLine + "The program used to pick the first IP and most of the times it grabbed the correct one... and sometimes failed miserably." + Environment.NewLine + "If you are connected to more than one network make sure your IP adress is right.", "Do you even network bro?", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
