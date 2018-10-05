@@ -45,9 +45,6 @@
 			this.lblIPMarker = new System.Windows.Forms.Label();
 			this.lblFileMarker = new System.Windows.Forms.Label();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.btnInfo = new System.Windows.Forms.Button();
-			this.btnGithub = new System.Windows.Forms.Button();
-			this.btnAbout = new System.Windows.Forms.PictureBox();
 			this.lblImageVersion = new System.Windows.Forms.Label();
 			this.cboLocalIP = new System.Windows.Forms.ComboBox();
 			this.label2 = new System.Windows.Forms.Label();
@@ -57,8 +54,11 @@
 			this.txtPort = new System.Windows.Forms.TextBox();
 			this.lblPortMarker = new System.Windows.Forms.Label();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+			this.btnInfo = new System.Windows.Forms.Button();
+			this.btnGithub = new System.Windows.Forms.Button();
+			this.picSplash = new System.Windows.Forms.PictureBox();
 			this.statusStrip1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.btnAbout)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picSplash)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// lvFileList
@@ -195,42 +195,9 @@
 			this.lblFileMarker.TabIndex = 15;
 			this.lblFileMarker.Visible = false;
 			// 
-			// btnInfo
-			// 
-			this.btnInfo.AutoSize = true;
-			this.btnInfo.Image = global::Boop.Properties.Resources.info;
-			this.btnInfo.Location = new System.Drawing.Point(295, 2);
-			this.btnInfo.Name = "btnInfo";
-			this.btnInfo.Size = new System.Drawing.Size(29, 29);
-			this.btnInfo.TabIndex = 11;
-			this.toolTip1.SetToolTip(this.btnInfo, "About Boop");
-			this.btnInfo.UseVisualStyleBackColor = true;
-			this.btnInfo.Click += new System.EventHandler(this.btnInfo_Click);
-			// 
-			// btnGithub
-			// 
-			this.btnGithub.AutoSize = true;
-			this.btnGithub.Image = global::Boop.Properties.Resources.github;
-			this.btnGithub.Location = new System.Drawing.Point(330, 2);
-			this.btnGithub.Name = "btnGithub";
-			this.btnGithub.Size = new System.Drawing.Size(29, 29);
-			this.btnGithub.TabIndex = 10;
-			this.toolTip1.SetToolTip(this.btnGithub, "Fork us on GitHub");
-			this.btnGithub.UseVisualStyleBackColor = true;
-			this.btnGithub.Click += new System.EventHandler(this.btnGithub_Click);
-			// 
-			// btnAbout
-			// 
-			this.btnAbout.Image = global::Boop.Properties.Resources.Boop1;
-			this.btnAbout.Location = new System.Drawing.Point(12, 34);
-			this.btnAbout.Name = "btnAbout";
-			this.btnAbout.Size = new System.Drawing.Size(350, 150);
-			this.btnAbout.TabIndex = 4;
-			this.btnAbout.TabStop = false;
-			// 
 			// lblImageVersion
 			// 
-			this.lblImageVersion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(187)))), ((int)(((byte)(255)))));
+			this.lblImageVersion.BackColor = System.Drawing.Color.Transparent;
 			this.lblImageVersion.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblImageVersion.ForeColor = System.Drawing.Color.White;
 			this.lblImageVersion.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
@@ -328,6 +295,39 @@
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "and now Port? What is this?";
 			// 
+			// btnInfo
+			// 
+			this.btnInfo.AutoSize = true;
+			this.btnInfo.Image = global::Boop.Properties.Resources.info;
+			this.btnInfo.Location = new System.Drawing.Point(295, 2);
+			this.btnInfo.Name = "btnInfo";
+			this.btnInfo.Size = new System.Drawing.Size(29, 29);
+			this.btnInfo.TabIndex = 11;
+			this.toolTip1.SetToolTip(this.btnInfo, "About Boop");
+			this.btnInfo.UseVisualStyleBackColor = true;
+			this.btnInfo.Click += new System.EventHandler(this.btnInfo_Click);
+			// 
+			// btnGithub
+			// 
+			this.btnGithub.AutoSize = true;
+			this.btnGithub.Image = global::Boop.Properties.Resources.github;
+			this.btnGithub.Location = new System.Drawing.Point(330, 2);
+			this.btnGithub.Name = "btnGithub";
+			this.btnGithub.Size = new System.Drawing.Size(29, 29);
+			this.btnGithub.TabIndex = 10;
+			this.toolTip1.SetToolTip(this.btnGithub, "Fork us on GitHub");
+			this.btnGithub.UseVisualStyleBackColor = true;
+			this.btnGithub.Click += new System.EventHandler(this.btnGithub_Click);
+			// 
+			// picSplash
+			// 
+			this.picSplash.Image = ((System.Drawing.Image)(resources.GetObject("picSplash.Image")));
+			this.picSplash.Location = new System.Drawing.Point(12, 34);
+			this.picSplash.Name = "picSplash";
+			this.picSplash.Size = new System.Drawing.Size(350, 150);
+			this.picSplash.TabIndex = 4;
+			this.picSplash.TabStop = false;
+			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
@@ -350,7 +350,7 @@
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.txtConsole);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.btnAbout);
+			this.Controls.Add(this.picSplash);
 			this.Controls.Add(this.btnBoop);
 			this.Controls.Add(this.lvFileList);
 			this.Controls.Add(this.btnPickFiles);
@@ -366,7 +366,7 @@
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.btnAbout)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picSplash)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -377,7 +377,7 @@
         private System.Windows.Forms.Button btnPickFiles;
         private System.Windows.Forms.ListView lvFileList;
         private System.Windows.Forms.Button btnBoop;
-        private System.Windows.Forms.PictureBox btnAbout;
+        private System.Windows.Forms.PictureBox picSplash;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtConsole;
         private System.Windows.Forms.ColumnHeader CiaFile;

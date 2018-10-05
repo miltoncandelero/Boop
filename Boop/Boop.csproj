@@ -149,6 +149,10 @@
     <None Include="Resources\IP.png" />
     <None Include="Resources\Boop1.png" />
     <None Include="Resources\snekicon.png" />
+    <None Include="Resources\generic.bmp" />
+    <None Include="Resources\generic.png" />
+    <None Include="Resources\3ds.png" />
+    <None Include="Resources\switch.png" />
     <Content Include="snekicon.ico" />
   </ItemGroup>
   <ItemGroup>

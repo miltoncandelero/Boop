@@ -37,16 +37,21 @@ namespace Boop
 				if (value == SWITCH)
 				{
 					_consolemode = SWITCH;
+					picSplash.Image = Properties.Resources._switch;
+
 					//Do other changes.
 				}
 				else if (value.ToUpper() == N3DS)
 				{
 					_consolemode = N3DS;
+					picSplash.Image = Properties.Resources._3ds;
+
 					//Do other changes.
 				}
 				else
 				{
 					_consolemode = NONE;
+					picSplash.Image = Properties.Resources.generic;
 					//reset the UI.
 				}
 			}
@@ -55,6 +60,11 @@ namespace Boop
 		public Form1()
 		{
 			InitializeComponent();
+
+			var pos = this.PointToScreen(lblImageVersion.Location);
+			pos = picSplash.PointToClient(pos);
+			lblImageVersion.Parent = picSplash;
+			lblImageVersion.Location = pos;
 
 			Application.ApplicationExit += new EventHandler(this.OnApplicationExit);
 
@@ -408,7 +418,7 @@ namespace Boop
 		{
 			btnBoop.Enabled = enabled;
 			btnPickFiles.Enabled = enabled;
-			btnAbout.Enabled = enabled;
+			picSplash.Enabled = enabled;
 		}
 
 		private void setStatusLabel(String text)
