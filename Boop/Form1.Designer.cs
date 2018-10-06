@@ -45,6 +45,8 @@
 			this.lblIPMarker = new System.Windows.Forms.Label();
 			this.lblFileMarker = new System.Windows.Forms.Label();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.btnInfo = new System.Windows.Forms.Button();
+			this.btnGithub = new System.Windows.Forms.Button();
 			this.lblImageVersion = new System.Windows.Forms.Label();
 			this.cboLocalIP = new System.Windows.Forms.ComboBox();
 			this.label2 = new System.Windows.Forms.Label();
@@ -54,9 +56,8 @@
 			this.txtPort = new System.Windows.Forms.TextBox();
 			this.lblPortMarker = new System.Windows.Forms.Label();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-			this.btnInfo = new System.Windows.Forms.Button();
-			this.btnGithub = new System.Windows.Forms.Button();
 			this.picSplash = new System.Windows.Forms.PictureBox();
+			this.lblMode = new System.Windows.Forms.Label();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picSplash)).BeginInit();
 			this.SuspendLayout();
@@ -195,6 +196,30 @@
 			this.lblFileMarker.TabIndex = 15;
 			this.lblFileMarker.Visible = false;
 			// 
+			// btnInfo
+			// 
+			this.btnInfo.AutoSize = true;
+			this.btnInfo.Image = global::Boop.Properties.Resources.info;
+			this.btnInfo.Location = new System.Drawing.Point(295, 2);
+			this.btnInfo.Name = "btnInfo";
+			this.btnInfo.Size = new System.Drawing.Size(29, 29);
+			this.btnInfo.TabIndex = 11;
+			this.toolTip1.SetToolTip(this.btnInfo, "About Boop");
+			this.btnInfo.UseVisualStyleBackColor = true;
+			this.btnInfo.Click += new System.EventHandler(this.btnInfo_Click);
+			// 
+			// btnGithub
+			// 
+			this.btnGithub.AutoSize = true;
+			this.btnGithub.Image = global::Boop.Properties.Resources.github;
+			this.btnGithub.Location = new System.Drawing.Point(330, 2);
+			this.btnGithub.Name = "btnGithub";
+			this.btnGithub.Size = new System.Drawing.Size(29, 29);
+			this.btnGithub.TabIndex = 10;
+			this.toolTip1.SetToolTip(this.btnGithub, "Fork us on GitHub");
+			this.btnGithub.UseVisualStyleBackColor = true;
+			this.btnGithub.Click += new System.EventHandler(this.btnGithub_Click);
+			// 
 			// lblImageVersion
 			// 
 			this.lblImageVersion.BackColor = System.Drawing.Color.Transparent;
@@ -295,30 +320,6 @@
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "and now Port? What is this?";
 			// 
-			// btnInfo
-			// 
-			this.btnInfo.AutoSize = true;
-			this.btnInfo.Image = global::Boop.Properties.Resources.info;
-			this.btnInfo.Location = new System.Drawing.Point(295, 2);
-			this.btnInfo.Name = "btnInfo";
-			this.btnInfo.Size = new System.Drawing.Size(29, 29);
-			this.btnInfo.TabIndex = 11;
-			this.toolTip1.SetToolTip(this.btnInfo, "About Boop");
-			this.btnInfo.UseVisualStyleBackColor = true;
-			this.btnInfo.Click += new System.EventHandler(this.btnInfo_Click);
-			// 
-			// btnGithub
-			// 
-			this.btnGithub.AutoSize = true;
-			this.btnGithub.Image = global::Boop.Properties.Resources.github;
-			this.btnGithub.Location = new System.Drawing.Point(330, 2);
-			this.btnGithub.Name = "btnGithub";
-			this.btnGithub.Size = new System.Drawing.Size(29, 29);
-			this.btnGithub.TabIndex = 10;
-			this.toolTip1.SetToolTip(this.btnGithub, "Fork us on GitHub");
-			this.btnGithub.UseVisualStyleBackColor = true;
-			this.btnGithub.Click += new System.EventHandler(this.btnGithub_Click);
-			// 
 			// picSplash
 			// 
 			this.picSplash.Image = ((System.Drawing.Image)(resources.GetObject("picSplash.Image")));
@@ -328,12 +329,22 @@
 			this.picSplash.TabIndex = 4;
 			this.picSplash.TabStop = false;
 			// 
+			// lblMode
+			// 
+			this.lblMode.AutoSize = true;
+			this.lblMode.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblMode.Location = new System.Drawing.Point(12, 2);
+			this.lblMode.Name = "lblMode";
+			this.lblMode.Size = new System.Drawing.Size(0, 30);
+			this.lblMode.TabIndex = 27;
+			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(373, 583);
+			this.Controls.Add(this.lblMode);
 			this.Controls.Add(this.linkLabel1);
 			this.Controls.Add(this.txtPort);
 			this.Controls.Add(this.lblPortMarker);
@@ -401,6 +412,7 @@
 		private System.Windows.Forms.TextBox txtPort;
 		private System.Windows.Forms.Label lblPortMarker;
 		private System.Windows.Forms.LinkLabel linkLabel1;
+		private System.Windows.Forms.Label lblMode;
 	}
 }
 

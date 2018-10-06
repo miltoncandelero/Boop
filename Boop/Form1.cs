@@ -10,7 +10,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HTTPServer;
+using Unosquare.Labs.EmbedIO;
+using Unosquare.Labs.EmbedIO.Modules;
+using System.Threading;
 
 namespace Boop
 {
@@ -21,7 +23,9 @@ namespace Boop
 		const string N3DS = "3DS";
 		const string NONE = "none";
 
-		CsHTTPServer HTTPServer;
+		Task task;
+		CancellationTokenSource cts;
+		WebServer newHTTPServer;
 		Socket s; //Socket to tell FBI where the server is
 		string[] FilesToBoop; //Files to be boop'd
 		string ActiveDir; //Used to mount the server
@@ -38,6 +42,8 @@ namespace Boop
 				{
 					_consolemode = SWITCH;
 					picSplash.Image = Properties.Resources._switch;
+					lblMode.Text = "NINTENDO SWITCH MODE";
+					lblMode.ForeColor = System.Drawing.Color.FromArgb(0xe60012);
 
 					//Do other changes.
 				}
@@ -45,6 +51,8 @@ namespace Boop
 				{
 					_consolemode = N3DS;
 					picSplash.Image = Properties.Resources._3ds;
+					lblMode.Text = "NINTENDO 3DS MODE";
+					lblMode.ForeColor = System.Drawing.Color.FromArgb(0x48bbff);
 
 					//Do other changes.
 				}
@@ -52,6 +60,7 @@ namespace Boop
 				{
 					_consolemode = NONE;
 					picSplash.Image = Properties.Resources.generic;
+					lblMode.Text = "";
 					//reset the UI.
 				}
 			}
@@ -98,7 +107,10 @@ namespace Boop
 			//Individual trycatches to make sure everything is off before leaving.
 			try
 			{
-				HTTPServer.Stop();
+				//Stop the webServer
+				cts.Cancel();
+				//task.Wait();
+				newHTTPServer.Dispose();
 			}
 			catch { }
 
@@ -117,7 +129,7 @@ namespace Boop
 			OpenFileDialog OFD = new OpenFileDialog();
 
 			// Set filter options and filter index.
-			OFD.Filter = "Tinfoil compatible files (*.nsp)|*.nsp|FBI compatible files (*.cia, *.tik)|*.cia;*.tik";
+			OFD.Filter = "Boop compatible files (*.nsp, *.cia, *.tik)|*.nsp;*.cia;*.tik|Tinfoil compatible files (*.nsp)|*.nsp|FBI compatible files (*.cia, *.tik)|*.cia;*.tik";
 
 			OFD.FilterIndex = 0;
 
@@ -278,11 +290,14 @@ namespace Boop
 				setStatusLabel("Opening the new and improved snek server...");
 				enableControls(false);
 
-				HTTPServer = new MyServer(iLocalPort, ActiveDir);
-				HTTPServer.Start();
+				newHTTPServer = WebServer
+				.Create("http://"+ NetUtil.IPv4.Local + ":"+iLocalPort+"/")
+				.WithStaticFolderAt(ActiveDir);
 
+				cts = new CancellationTokenSource();
+				task = newHTTPServer.RunAsync(cts.Token);
 
-				System.Threading.Thread.Sleep(100);
+				Thread.Sleep(100);
 
 				setStatusLabel("Opening socket to send the file list...");
 
@@ -295,7 +310,12 @@ namespace Boop
 				if (!s.Connected)
 				{
 					s.Close();
-					HTTPServer.Stop();
+
+					//Stop the webServer
+					cts.Cancel();
+					//task.Wait();
+					newHTTPServer.Dispose();
+
 					MessageBox.Show("Failed to connect to Console", "Connection failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					lblIPMarker.Visible = true;
 					setStatusLabel("Ready");
@@ -309,7 +329,7 @@ namespace Boop
 
 				foreach (var file in FilesToBoop)
 				{
-					message += NetUtil.IPv4.Local + ":"+txtPort.Text+"/" + System.Web.HttpUtility.UrlEncode(Path.GetFileName(file)) + "\n";
+					message += NetUtil.IPv4.Local + ":"+txtPort.Text+"/" + Uri.EscapeDataString(Path.GetFileName(file)) + "\n";
 				}
 
 				//boop the info to the console...
@@ -349,7 +369,10 @@ namespace Boop
 			});
 
 			s.Close();
-			HTTPServer.Stop();
+			//Stop the webServer
+			cts.Cancel();
+			//task.Wait();
+			newHTTPServer.Dispose();
 		}
 
 		static byte[] AppendTwoByteArrays(byte[] arrayA, byte[] arrayB) //Aux function to append the 2 byte arrays.
