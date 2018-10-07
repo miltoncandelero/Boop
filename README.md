@@ -24,4 +24,4 @@ Enough talk! Take me to the [download page!](https://github.com/miltoncandelero/
 
 ## Screenshot:
 
-![Snek Screenshot](/boop2.PNG?raw=true "Boop v2.0.0")
+![Snek Screenshot](/boop2.png?raw=true "Boop v2.0.0")
