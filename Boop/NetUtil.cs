@@ -20,7 +20,7 @@ namespace Boop
 
 
 			//Known Nintendo Mac adresses //Will no longer be supported :|
-			public static readonly List<string> Nontendo = new List<string> { "E84ECE", "E0E751", "E00C7F", "D86BF7", "CCFB65", "CC9E00", "B8AE6E", "A4C0E1", "A45C27", "9CE635", "98B6E9", "8CCDE8", "8C56C5", "7CBB8A", "78A2A0", "58BDA3", "40F407", "40D28A", "34AF2C", "2C10C1", "182A7B", "002709", "002659", "0025A0", "0024F3", "002444", "00241E", "0023CC", "002331", "0022D7", "0022AA", "00224C", "0021BD", "002147", "001FC5", "001F32", "001EA9", "001E35", "001DBC", "001CBE", "001BEA", "001B7A", "001AE9", "0019FD", "00191D", "0017AB", "001656", "0009BF" };
+			public static readonly List<string> Nontendo = new List<string> { "0009BF", "001656", "0017AB", "00191D", "0019FD", "001AE9", "001B7A", "001BEA", "001CBE", "001DBC", "001E35", "001EA9", "001F32", "001FC5", "002147", "0021BD", "00224C", "0022AA", "0022D7", "002331", "0023CC", "00241E", "002444", "0024F3", "0025A0", "002659", "002709", "0403D6", "182A7B", "2C10C1", "34AF2C", "40D28A", "40F407", "582F40", "58BDA3", "5C521E", "606BFF", "64B5C6", "78A2A0", "7CBB8A", "8C56C5", "8CCDE8", "98B6E9", "9CE635", "A438CC", "A45C27", "A4C0E1", "B87826", "B88AEC", "B8AE6E", "CC9E00", "CCFB65", "D86BF7", "DC68EB", "E00C7F", "E0E751", "E84ECE", "ECC40D", "E84ECE" };
 
 
 			/// <summary>

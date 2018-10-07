@@ -172,10 +172,10 @@
 			this.linkWhat.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.linkWhat.Location = new System.Drawing.Point(259, 259);
 			this.linkWhat.Name = "linkWhat";
-			this.linkWhat.Size = new System.Drawing.Size(100, 17);
+			this.linkWhat.Size = new System.Drawing.Size(110, 17);
 			this.linkWhat.TabIndex = 13;
 			this.linkWhat.TabStop = true;
-			this.linkWhat.Text = "Where is my IP?";
+			this.linkWhat.Text = "What is an my IP?";
 			this.linkWhat.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkWhat_LinkClicked);
 			// 
 			// lblIPMarker
@@ -319,6 +319,7 @@
 			this.linkLabel1.TabIndex = 26;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "and now Port? What is this?";
+			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
 			// 
 			// picSplash
 			// 

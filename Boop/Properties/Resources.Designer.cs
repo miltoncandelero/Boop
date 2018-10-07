@@ -113,29 +113,9 @@ namespace Boop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap IP {
+        internal static System.Drawing.Bitmap snek2icon {
             get {
-                object obj = ResourceManager.GetObject("IP", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap snekicon {
-            get {
-                object obj = ResourceManager.GetObject("snekicon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap snekicon1 {
-            get {
-                object obj = ResourceManager.GetObject("snekicon1", resourceCulture);
+                object obj = ResourceManager.GetObject("snek2icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

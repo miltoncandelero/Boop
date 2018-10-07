@@ -66,7 +66,7 @@
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.Image = global::Boop.Properties.Resources.snekicon1;
+			this.pictureBox1.Image = global::Boop.Properties.Resources.snek2icon;
 			this.pictureBox1.Location = new System.Drawing.Point(12, 12);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(114, 112);
@@ -78,7 +78,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(307, 135);
+			this.ClientSize = new System.Drawing.Size(307, 134);
 			this.Controls.Add(this.lblSnekFriendly);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lblTitle);

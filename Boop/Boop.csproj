@@ -56,7 +56,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>snekicon.ico</ApplicationIcon>
+    <ApplicationIcon>snek2icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -115,12 +115,6 @@
     <Compile Include="InfoBox.Designer.cs">
       <DependentUpon>InfoBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyIP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyIP.Designer.cs">
-      <DependentUpon>MyIP.cs</DependentUpon>
-    </Compile>
     <Compile Include="NetUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,9 +124,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InfoBox.resx">
       <DependentUpon>InfoBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyIP.resx">
-      <DependentUpon>MyIP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -166,10 +157,11 @@
     <None Include="Resources\IP.png" />
     <None Include="Resources\Boop1.png" />
     <None Include="Resources\snekicon.png" />
-    <None Include="Resources\generic.bmp" />
     <None Include="Resources\generic.png" />
     <None Include="Resources\3ds.png" />
     <None Include="Resources\switch.png" />
+    <None Include="Resources\snek2icon.png" />
+    <Content Include="snek2icon.ico" />
     <Content Include="snekicon.ico" />
   </ItemGroup>
   <ItemGroup>

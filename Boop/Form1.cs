@@ -493,8 +493,7 @@ namespace Boop
 
 		private void linkWhat_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) //Added help picture to find IP adress.
 		{
-			MyIP frmIP = new MyIP();
-			frmIP.ShowDialog();
+			MessageBox.Show("An Internet Protocol address (IP address) is a numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication." + Environment.NewLine + "You are probably wondering 'What does it look like?'" + Environment.NewLine + "It looks like X.X.X.X where your replace each X for a number between 1 and 255." + Environment.NewLine + "Get your console on the 'Remote Install' screen and it should tell you it's IP adress somewhere.", "Explaining is hard", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void btnGithub_Click(object sender, EventArgs e) //New cooler github button
@@ -521,8 +520,12 @@ namespace Boop
 
 		private void lblPCIP_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			MessageBox.Show("Although the server opens for ALL networks, we need to send only ONE IP address to your 3DS." + Environment.NewLine + "The program used to pick the first IP and most of the times it grabbed the correct one... and sometimes failed miserably." + Environment.NewLine + "If you are connected to more than one network make sure your IP adress is right.", "Do you even network bro?", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("To open the server for ALL networks I needed admin access and since we have to send the console only ONE adress I decieded to open the server only on that adress." + Environment.NewLine + "The picks the first IP and most of the times it grabs the correct one... and sometimes fails miserably." + Environment.NewLine + "If you are connected to more than one network make sure your IP adress is right.", "Do you even network bro?", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			MessageBox.Show("Pick a port that you know to be empty on your computer." + Environment.NewLine + "Some good examples are 8080, 8008 and 591", "Do you even network bro?", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
 	}
 }
